@@ -6,6 +6,8 @@
  * Copyright (c) 2019 Yakka, LLC. All rights reserved.
  * See LICENSE for distribution and usage details.
  */
+import 'package:cabo_karte/config/themes/dark_theme.dart';
+import 'package:cabo_karte/config/themes/light_theme.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -31,11 +33,9 @@ class AppComponentState extends State<AppComponent> {
   @override
   Widget build(BuildContext context) {
     final app = MaterialApp(
-      title: 'Fluro',
+      title: 'Cabo Karte',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: darkTheme,
       onGenerateRoute: Application.router.generator,
     );
 //    print("initial route = ${app.initialRoute}");

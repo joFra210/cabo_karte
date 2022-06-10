@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 // Define a custom Form widget.
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+class PlayerForm extends StatefulWidget {
+  const PlayerForm({Key? key}) : super(key: key);
 
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
+  PlayerFormState createState() {
+    return PlayerFormState();
   }
 }
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
+class PlayerFormState extends State<PlayerForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -20,17 +20,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   String formInput = '';
-
-  void _updateInput(String input) {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      formInput = input;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +54,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),
                 );
+                formInput.toString();
               }
             },
             child: const Text('Submit'),

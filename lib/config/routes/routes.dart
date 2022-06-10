@@ -4,10 +4,11 @@ import './route_handlers.dart';
 
 class Routes {
   static String root = "/";
-  static String demoSimple = "/demo";
-  static String demoSimpleFixedTrans = "/demo/fixedtrans";
-  static String demoFunc = "/demo/func";
-  static String deepLink = "/message";
+  static String games = "/games";
+  static String newGame = "/games/new-game";
+  static String rounds = "/games/:game-id/rounds";
+  static String players = "/players";
+  static String addPlayer = "/players/add-player";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(
@@ -18,5 +19,6 @@ class Routes {
       },
     );
     router.define(root, handler: rootHandler);
+    router.define(addPlayer, handler: addPlayerHandler);
   }
 }

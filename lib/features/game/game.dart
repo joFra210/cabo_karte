@@ -1,5 +1,5 @@
 import 'package:cabo_karte/features/game/round.dart';
-import 'package:cabo_karte/features/player/player.dart';
+import 'package:cabo_karte/features/player/domain/player.dart';
 
 class Game {
   List<Player> players;
