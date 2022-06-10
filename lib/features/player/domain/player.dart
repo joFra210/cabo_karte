@@ -14,7 +14,7 @@ class Player {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{
       'name': name,
-      'overallScore': numberOfWins,
+      'numberOfWins': numberOfWins,
     };
     if (id != null) {
       map['id'] = id;
@@ -26,7 +26,7 @@ class Player {
     return Player(
       id: map['id'],
       name: map['name'],
-      numberOfWins: map['overallScore'] ?? 0,
+      numberOfWins: map['numberOfWins'] ?? 0,
     );
   }
 
@@ -34,7 +34,7 @@ class Player {
   // each player when using the print statement.
   @override
   String toString() {
-    return 'Player{id: $id, name: $name, overallScore: $numberOfWins}';
+    return 'Player{id: $id, name: $name, numberOfWins: $numberOfWins}';
   }
 
   @override
