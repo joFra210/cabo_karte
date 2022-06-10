@@ -3,11 +3,13 @@ import 'package:cabo_karte/features/player/domain/player.dart';
 
 class Game {
   int? id;
-  List<Player> players;
+  DateTime date;
+  Set<Player> players;
   final _rounds = <Round>[];
   String? _leaderName;
 
   Game({
+    required this.date,
     required this.players,
     this.id,
   });
@@ -21,7 +23,9 @@ class Game {
   }
 
   Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = <String, dynamic>{};
+    Map<String, dynamic> map = <String, dynamic>{
+      'date': date.toIso8601String(),
+    };
     if (id != null) {
       map['id'] = id;
     }
@@ -40,6 +44,7 @@ class Game {
   static Game fromMap(Map<dynamic, dynamic> map) {
     return Game(
       id: map['id'],
+      date: DateTime.parse(map['date']),
       players: map['players'],
     );
   }

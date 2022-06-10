@@ -21,7 +21,7 @@ class GameProvider {
     game.id = await db.insert(
       tableName,
       game.toMap(),
-      // just skip duplicate players
+      // just replace duplicate games
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
@@ -37,5 +37,14 @@ class GameProvider {
     }
 
     return game;
+  }
+
+  Future<void> printGames() async {
+    final List<Map<String, dynamic>> maps = await db.query(tableName);
+    final List<Map<String, dynamic>> playerGamesJoinMaps =
+        await db.query(playerJoinTableName);
+
+    print(maps);
+    print(playerGamesJoinMaps);
   }
 }
