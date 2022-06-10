@@ -26,8 +26,6 @@ class GameProvider {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    print(game.players);
-
     for (Player player in game.players) {
       await db.insert(
         playerJoinTableName,
@@ -42,7 +40,7 @@ class GameProvider {
     return game;
   }
 
-  Future<void> printGames() async {
+  Future<void> printCurrentGame() async {
     Game currentGame = await getCurrentGame();
 
     print('CURRENT GAME: $currentGame');

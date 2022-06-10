@@ -53,6 +53,6 @@ class Game {
   // each player when using the print statement.
   @override
   String toString() {
-    return 'Game{id: $id, players: $players}';
+    return 'Game{id: $id, date: $date, players: $players}';
   }
 }

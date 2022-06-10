@@ -54,11 +54,11 @@ class _NewGameFormState extends State<NewGameForm> {
             child: enoughPlayers
                 ? ElevatedButton(
                     onPressed: () async {
-                      // await _persistGame();
+                      await _persistGame();
 
                       print('spiel sollte jetzt in db liegen: $_newGame');
 
-                      await _gameProvider.printGames();
+                      await _gameProvider.printCurrentGame();
                     },
                     child: const Text('Spiel anlegen'),
                   )
