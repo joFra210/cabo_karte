@@ -27,8 +27,10 @@ class Game {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{
       'date': date.toIso8601String(),
+      'finished': finished == true ? 1 : 0, // transform bool value to int
     };
     if (id != null) {
+      // let database set int value don't include on your own
       map['id'] = id;
     }
     return map;
@@ -48,7 +50,7 @@ class Game {
       id: map['id'],
       date: DateTime.parse(map['date']),
       players: map['players'],
-      finished: !!map['finished'],
+      finished: map['finished'] == 1, // transform int value to bool
     );
   }
 
@@ -56,6 +58,6 @@ class Game {
   // each player when using the print statement.
   @override
   String toString() {
-    return 'Game{id: $id, date: $date, players: $players}';
+    return 'Game{id: $id, date: $date, players: $players, finished: $finished}';
   }
 }

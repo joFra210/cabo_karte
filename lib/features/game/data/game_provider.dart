@@ -5,7 +5,7 @@ import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class GameProvider {
-  late Database db;
+  late Database _db;
   String tableName = DatabaseProvider.tableNameGames;
   String playerJoinTableName = DatabaseProvider.tableNameGamesPlayers;
 
@@ -15,11 +15,11 @@ class GameProvider {
 
   Future<void> openDb() async {
     // Open the database and store the reference.
-    db = await DatabaseProvider().database;
+    _db = await DatabaseProvider().database;
   }
 
   Future<Game> persistGame(Game game) async {
-    game.id = await db.insert(
+    game.id = await _db.insert(
       tableName,
       game.toMap(),
       // just replace duplicate games
@@ -27,7 +27,7 @@ class GameProvider {
     );
 
     for (Player player in game.players) {
-      await db.insert(
+      await _db.insert(
         playerJoinTableName,
         {
           'player_id': player.id,
@@ -47,18 +47,24 @@ class GameProvider {
   }
 
   Future<Game> getCurrentGame() async {
-    final List<Map<String, dynamic>> gameMaps = await db.query(tableName);
+    final List<Map<String, dynamic>> gameMaps = await _db.query(tableName);
     Map<String, dynamic> currentGameMap =
         Map<String, dynamic>.from(gameMaps.last);
-    int gameId = currentGameMap['id'];
+    if (currentGameMap.isNotEmpty) {
+      int gameId = currentGameMap['id'];
 
-    final List<Map<String, dynamic>> playerGamesJoinMaps = await db
-        .query(playerJoinTableName, where: 'game_id = ?', whereArgs: [gameId]);
+      final List<Map<String, dynamic>> playerGamesJoinMaps = await _db.query(
+          playerJoinTableName,
+          where: 'game_id = ?',
+          whereArgs: [gameId]);
 
-    currentGameMap['players'] =
-        await playerSetFromJoinMaps(playerGamesJoinMaps);
+      currentGameMap['players'] =
+          await playerSetFromJoinMaps(playerGamesJoinMaps);
 
-    return Game.fromMap(currentGameMap);
+      return Game.fromMap(currentGameMap);
+    }
+
+    throw Exception('No current game available...');
   }
 
   /// Iterate over over Games/Players JoinTable entries and generate Set of
