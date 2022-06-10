@@ -73,6 +73,7 @@ class _RoundFormState extends State<RoundForm> {
             onChanged: (Player? value) {
               setState(() {
                 _caboPlayer = value;
+                _round.caboCallerId = _caboPlayer!.id;
               });
             },
           ),
