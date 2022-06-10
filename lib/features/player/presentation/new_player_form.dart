@@ -30,12 +30,6 @@ class PlayerFormState extends State<PlayerForm> {
 
   PlayerProvider playerProvider = PlayerProvider();
 
-  Future<List<Player>> getplayerList() async {
-    await playerProvider.openDb();
-    List<Player> list = await playerProvider.getAllPlayers();
-    return list;
-  }
-
   Future<Player> insertNewPlayer(Player newPlayer) async {
     Player player = await playerProvider.insertPlayer(newPlayer);
     return player;
