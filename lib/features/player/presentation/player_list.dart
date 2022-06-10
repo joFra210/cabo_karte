@@ -5,15 +5,18 @@ import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListWidget extends StatefulWidget {
-  const PlayerListWidget({
+  PlayerListWidget({
     Key? key,
-    bool? deleteButton,
+    this.deleteButton = false,
     required this.activePlayers,
     required this.onChanged,
+    this.listOnly = false,
   }) : super(key: key);
 
   final Set<Player> activePlayers;
   final ValueChanged<Set<Player>> onChanged;
+  bool listOnly;
+  bool deleteButton;
 
   @override
   State<PlayerListWidget> createState() => _PlayerListWidgetState();
@@ -42,6 +45,14 @@ class _PlayerListWidgetState extends State<PlayerListWidget> {
     widget.onChanged(_playersList);
   }
 
+  void _handlePlayerDelete(Player player) {
+    setState(() {
+      _playersList.remove(player);
+    });
+
+    widget.onChanged(_playersList);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Player>>(
@@ -51,6 +62,28 @@ class _PlayerListWidgetState extends State<PlayerListWidget> {
           final tiles = snap.data!.map(
             (player) {
               bool alreadyInGame = _playersList.contains(player);
+              if (widget.listOnly) {
+                return ListTile(
+                  title: Text(
+                    player.name,
+                  ),
+                );
+              }
+              if (widget.deleteButton) {
+                return ListTile(
+                  title: Text(
+                    player.name,
+                  ),
+                  trailing: const Icon(
+                    Icons.delete,
+                    color: CaboColors.caboRedLight,
+                    semanticLabel: 'Spieler löschen',
+                  ),
+                  onTap: () {
+                    _handlePlayerDelete(player);
+                  },
+                );
+              }
               return ListTile(
                 title: Text(
                   player.name,

@@ -1,5 +1,6 @@
 import 'package:cabo_karte/features/game/data/game_provider.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
+import 'package:cabo_karte/features/game/presentation/game_widget.dart';
 import 'package:flutter/material.dart';
 
 class CurrentGameScreen extends StatefulWidget {
@@ -23,9 +24,9 @@ class _CurrentGameScreenState extends State<CurrentGameScreen> {
         ),
         body: FutureBuilder(
           future: getCurrentGame(),
-          builder: (context, snapshot) {
+          builder: (context, AsyncSnapshot<Game> snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.toString());
+              return GameWidget(currentGame: snapshot.data!);
             } else if (snapshot.hasError) {
               return AlertDialog(
                 content: Text(snapshot.error.toString()),
