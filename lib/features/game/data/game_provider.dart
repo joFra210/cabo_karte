@@ -9,13 +9,24 @@ class GameProvider {
   String tableName = DatabaseProvider.tableNameGames;
   String playerJoinTableName = DatabaseProvider.tableNameGamesPlayers;
 
-  GameProvider() {
-    openDb();
+  // Make this a singleton class
+  GameProvider._privateConstructor();
+
+  static final GameProvider _instance = GameProvider._privateConstructor();
+
+  factory GameProvider() => _instance;
+
+  Future<GameProvider> get gameProvider async {
+    GameProvider provider = await _instance.openDb();
+
+    return provider;
   }
 
-  Future<void> openDb() async {
+  Future<GameProvider> openDb() async {
     // Open the database and store the reference.
     _db = await DatabaseProvider().database;
+
+    return this;
   }
 
   Future<Game> persistGame(Game game) async {
