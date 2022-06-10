@@ -77,6 +77,41 @@ class _RoundsWidgetState extends State<RoundsWidget> {
     return divided;
   }
 
+  List<DataRow> generateRoundDataRowList() {
+    List<DataRow> roundList = <DataRow>[];
+
+    for (Round round in _rounds) {
+      List<DataCell> cellList = [
+        DataCell(
+          Text(
+            round.number.toString(),
+          ),
+        ),
+      ];
+
+      for (Player player in widget.game.players) {
+        int score = round.playerScores[player.id]!;
+        bool isKamikazeScore = score == 50;
+
+        cellList.add(
+          DataCell(
+            Text(
+              isKamikazeScore ? 'KAMIKAZE' : score.toString(),
+            ),
+          ),
+        );
+      }
+
+      roundList.add(
+        DataRow(
+          cells: cellList,
+        ),
+      );
+    }
+
+    return roundList;
+  }
+
   // A method that launches the SelectionScreen and awaits the result from
   // Navigator.pop.
   Future<void> _navigateAndGetCreatedRound(BuildContext context) async {
@@ -104,24 +139,34 @@ class _RoundsWidgetState extends State<RoundsWidget> {
     }
   }
 
+  List<DataColumn> get tableCols {
+    List<DataColumn> cols = [
+      const DataColumn(label: Text('#')),
+    ];
+
+    for (Player player in widget.game.players) {
+      cols.add(
+        DataColumn(
+          label: Text(player.name),
+        ),
+      );
+    }
+
+    return cols;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints:
-          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
-      child: Column(
+    return Scrollbar(
+      child: ListView(
+        restorationId: 'some_table',
+        padding: const EdgeInsets.all(16),
         children: [
-          Container(
-            color: CaboColors.caboGreenDark,
-            child: const ListTile(
-              leading: Text('#'),
-              title: Text('Gewinner'),
-              trailing: Text('Punkte'),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              children: generateRoundList(),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columns: tableCols,
+              rows: generateRoundDataRowList(),
             ),
           ),
           const Text('add rounds here'),
