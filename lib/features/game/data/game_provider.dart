@@ -81,7 +81,7 @@ class GameProvider {
     throw Exception('No current game available...');
   }
 
-  /// Iterate over over Games/Players JoinTable entries and generate Set of
+  /// Iterate over Games/Players JoinTable entries and generate Set of
   /// Player objects
   static Future<Set<Player>> playerSetFromJoinMaps(
     List<Map<dynamic, dynamic>> playersGamesMaps,
