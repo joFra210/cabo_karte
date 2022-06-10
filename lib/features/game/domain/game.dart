@@ -41,17 +41,56 @@ class Game {
 
   get playerScores {
     Map<int, int> playerScores = <int, int>{};
-    for (Player player in players) {
-      for (Round round in rounds) {
-        // if scores already contains key add to it, else put round score in it
-        if (playerScores.containsKey(player.id!)) {
-          playerScores[player.id!] =
-              playerScores[player.id!]! + round.playerScores[player.id!]!;
+    for (Round round in rounds) {
+      bool isKamikaze = false;
+      if (round.playerScores.containsValue(50)) {
+        isKamikaze = true;
+      }
+      for (Player player in players) {
+        if (isKamikaze) {
+          if (round.playerScores[player.id!] == 50) {
+            print('player with id: ' +
+                player.id.toString() +
+                ' hat kamikaze in runde: ' +
+                round.number.toString());
+          } else {
+            // create entry with score for player if not exists and add points,
+            // else add points to existing entry, add 50 cause Kamikaze
+            playerScores = addToPlayerScore(playerScores, player.id!, 50);
+          }
+        } else if (player.id == round.winnerId) {
+          print('player with id: ' +
+              player.id.toString() +
+              ' hat gewonnen in runde: ' +
+              round.number.toString());
         } else {
-          playerScores[player.id!] = round.playerScores[player.id!]!;
+          // add points to existing entry if it exists,
+          // else create entry with score for player
+          playerScores = addToPlayerScore(
+              playerScores, player.id!, round.playerScores[player.id!]!);
+        }
+        // if player hits 100 points exactly, reduce score to 50
+        if (playerScores[player.id!] == 100) {
+          playerScores[player.id!] = 50;
         }
       }
     }
+    return playerScores;
+  }
+
+  /// add points to existing entry if it exists,
+  /// else create entry with score for player
+  Map<int, int> addToPlayerScore(
+    Map<int, int> playerScores,
+    int playerId,
+    int scoreToAdd,
+  ) {
+    if (playerScores.containsKey(playerId)) {
+      playerScores[playerId] = playerScores[playerId]! + scoreToAdd;
+    } else {
+      playerScores[playerId] = scoreToAdd;
+    }
+
     return playerScores;
   }
 
