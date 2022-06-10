@@ -48,7 +48,7 @@ class _RoundsWidgetState extends State<RoundsWidget> {
     List<ListTile> roundList = <ListTile>[];
 
     for (Round round in _rounds) {
-      MapEntry<int, int>? winnerScore = round.getLowestScore();
+      MapEntry<int, int>? winnerScore = round.winnerScore;
 
       bool isKamikazeScore = winnerScore?.value == 50;
 

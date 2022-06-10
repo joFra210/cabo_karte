@@ -15,7 +15,7 @@ class Round {
   }
 
   int get winnerId {
-    return getLowestScore()!.key;
+    return winnerScore!.key;
   }
 
   bool get isKamikaze {
@@ -23,7 +23,7 @@ class Round {
   }
 
   /// get lowest score or return Kamikaze score if it happened
-  MapEntry<int, int>? getLowestScore() {
+  MapEntry<int, int>? get winnerScore {
     MapEntry<int, int> lowestScore;
 
     if (playerScores.isNotEmpty) {
