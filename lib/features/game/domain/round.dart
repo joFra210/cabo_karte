@@ -1,4 +1,4 @@
-import 'package:cabo_karte/features/score/score.dart';
+import 'package:cabo_karte/features/score/domain/score.dart';
 
 class Round {
   int number;

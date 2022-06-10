@@ -1,5 +1,5 @@
 class Score {
-  int? _value;
+  int _value = 0;
 
   Score({
     int initValue = 0,
@@ -12,6 +12,6 @@ class Score {
   }
 
   int getValue() {
-    return _value ?? 0;
+    return _value;
   }
 }

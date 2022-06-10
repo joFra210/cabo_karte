@@ -6,7 +6,16 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseProvider {
   static const String tableNamePlayers = 'players';
   static const String tableNameGames = 'games';
-  static const String tableNameGamesPlayers = 'games_players';
+  static const String tableNameRounds = 'rounds';
+  static const String tableNameScores = 'scores';
+  static const String tableNameGamesPlayers =
+      tableNameGames + '_' + tableNamePlayers;
+  static const String tableNameGamesRounds =
+      tableNameGames + '_' + tableNameRounds;
+  static const String tableNameRoundsScores =
+      tableNameRounds + '_' + tableNameScores;
+  static const String tableNameScoresPlayers =
+      tableNameScores + '_' + tableNamePlayers;
 
   // Single reference to the db
   static late Database _db;
@@ -36,6 +45,9 @@ class DatabaseProvider {
       join(await getDatabasesPath(), Application.dbName),
       // When the database is first created, create a table to store dogs.
       onCreate: (db, version) {
+        db.execute(
+          'PRAGMA foreign_keys = ON;',
+        );
         // Run the CREATE TABLE statements on the database.
         db.execute(
           'CREATE TABLE $tableNamePlayers(id INTEGER PRIMARY KEY, name TEXT KEY UNIQUE, overallScore INTEGER);',
@@ -47,9 +59,11 @@ class DatabaseProvider {
           'CREATE TABLE $tableNameGamesPlayers(player_id INTEGER, game_id INTEGER, FOREIGN KEY(player_id) REFERENCES $tableNamePlayers(id) ON DELETE CASCADE, FOREIGN KEY(game_id) REFERENCES $tableNameGames(id) ON DELETE CASCADE);',
         );
         db.execute(
-            'CREATE INDEX player_index ON $tableNameGamesPlayers(player_id);');
+          'CREATE INDEX player_index ON $tableNameGamesPlayers(player_id);',
+        );
         db.execute(
-            'CREATE INDEX game_index ON $tableNameGamesPlayers(game_id);');
+          'CREATE INDEX game_index ON $tableNameGamesPlayers(game_id);',
+        );
       },
       // Set the version. This executes the onCreate function and provides a
       // path to perform database upgrades and downgrades.

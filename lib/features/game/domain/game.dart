@@ -1,4 +1,4 @@
-import 'package:cabo_karte/features/game/round.dart';
+import 'package:cabo_karte/features/game/domain/round.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
 
 class Game {
