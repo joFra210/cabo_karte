@@ -1,3 +1,4 @@
+import 'package:cabo_karte/features/app/data/database_provider.dart';
 import 'package:cabo_karte/features/player/data/player_provider.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
 
@@ -35,4 +36,5 @@ void dbConnection() async {
 
   print(await playerProvider.getAllPlayers()); // Should print an empty list
   await playerProvider.close();
+  DatabaseProvider().printTables();
 }

@@ -1,4 +1,3 @@
-import 'package:cabo_karte/features/player/data/player_db_connection_test.dart';
 import 'package:cabo_karte/features/player/presentation/new_player_form.dart';
 import 'package:flutter/material.dart';
 
@@ -41,14 +40,8 @@ class _NewPlayerScreenState extends State<NewPlayerScreen> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const PlayerForm(),
-            ElevatedButton(
-              onPressed: () {
-                dbConnection();
-              },
-              child: const Text('print playerdb test'),
-            ),
+          children: const <Widget>[
+            PlayerForm(),
           ],
         ),
       ),

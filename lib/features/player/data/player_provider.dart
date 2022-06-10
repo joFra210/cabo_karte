@@ -1,34 +1,18 @@
-import 'package:cabo_karte/config/application.dart';
+import 'package:cabo_karte/features/app/data/database_provider.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PlayerProvider {
   late Database db;
   String tableName = 'players';
 
+  PlayerProvider() {
+    openDb();
+  }
+
   Future<void> openDb() async {
-    // Avoid errors caused by flutter upgrade.
-    // Importing 'package:flutter/widgets.dart' is required.
-    WidgetsFlutterBinding.ensureInitialized();
     // Open the database and store the reference.
-    db = await openDatabase(
-      // Set the path to the database. Note: Using the `join` function from the
-      // `path` package is best practice to ensure the path is correctly
-      // constructed for each platform.
-      join(await getDatabasesPath(), Application.dbName),
-      // When the database is first created, create a table to store dogs.
-      onCreate: (db, version) {
-        // Run the CREATE TABLE statement on the database.
-        return db.execute(
-          'CREATE TABLE $tableName(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, overallScore INTEGER)',
-        );
-      },
-      // Set the version. This executes the onCreate function and provides a
-      // path to perform database upgrades and downgrades.
-      version: 1,
-    );
+    db = await DatabaseProvider().database;
   }
 
   Future<Player> insertPlayer(Player player) async {

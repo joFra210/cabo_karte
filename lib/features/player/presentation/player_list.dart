@@ -1,6 +1,5 @@
 import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/config/themes/themes_config.dart';
-import 'package:cabo_karte/features/player/data/player_db_connection_test.dart';
 import 'package:cabo_karte/features/player/data/player_provider.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +70,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
             ),
             ConstrainedBox(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height / 3,
+                maxHeight: MediaQuery.of(context).size.height / 2,
               ),
               child: FutureBuilder<List<Player>>(
                 future: getplayerList(),
@@ -90,6 +89,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                           ),
                           onTap: () async {
                             await playerProvider.delete(player.id!);
+                            setState(() {});
                           },
                         );
                       },
@@ -101,15 +101,12 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                           ).toList()
                         : <Widget>[];
 
-                    return Flexible(
-                      //padding: const EdgeInsets.all(15),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: divided.length,
-                        itemBuilder: (context, index) {
-                          return divided[index];
-                        },
-                      ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: divided.length,
+                      itemBuilder: (context, index) {
+                        return divided[index];
+                      },
                     );
                   } else if (snap.hasError) {
                     return AlertDialog(
@@ -120,12 +117,6 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                   return const CircularProgressIndicator();
                 },
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                dbConnection();
-              },
-              child: const Text('print playerdb test'),
             ),
           ],
         ),

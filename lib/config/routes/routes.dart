@@ -20,5 +20,6 @@ class Routes {
     );
     router.define(root, handler: homeHandler);
     router.define(addPlayer, handler: addPlayerHandler);
+    router.define(players, handler: playerHandler);
   }
 }

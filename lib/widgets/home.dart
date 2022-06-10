@@ -1,4 +1,5 @@
 import 'package:cabo_karte/config/routes/routes.dart';
+import 'package:cabo_karte/features/player/data/player_db_connection_test.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -60,7 +61,21 @@ class _HomeState extends State<Home> {
                   Routes.addPlayer,
                 );
               },
-              child: const Text('Neues Spiel'),
+              child: const Text('Neue Spieler anlegen'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  Routes.players,
+                );
+              },
+              child: const Text('Spielerliste anzeigen'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                dbConnection();
+              },
+              child: const Text('print playerdb test'),
             ),
           ],
         ),
