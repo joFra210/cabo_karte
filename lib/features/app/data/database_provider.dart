@@ -81,7 +81,7 @@ class DatabaseProvider {
   }
 
   void printTables() async {
-    Database db = await getDatabase();
+    Database db = await database;
 
     print(await db.rawQuery('PRAGMA foreign_keys'));
     print(await db.rawQuery('PRAGMA table_list'));

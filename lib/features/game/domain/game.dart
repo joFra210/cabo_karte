@@ -28,6 +28,15 @@ class Game {
     return map;
   }
 
+  void addPlayer(Player player) {
+    if (player.id != null) {
+      players.add(player);
+    } else {
+      throw Exception('Given player "$player" has no id. '
+          'Has it not yet been persisted to db?');
+    }
+  }
+
   static Game fromMap(Map<dynamic, dynamic> map) {
     return Game(
       id: map['id'],

@@ -1,5 +1,5 @@
 import 'package:cabo_karte/config/routes/routes.dart';
-import 'package:cabo_karte/features/player/data/player_db_connection_test.dart';
+import 'package:cabo_karte/features/app/data/db_connection_test.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {

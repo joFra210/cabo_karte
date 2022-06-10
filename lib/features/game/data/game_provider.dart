@@ -17,12 +17,12 @@ class GameProvider {
     db = await DatabaseProvider().database;
   }
 
-  Future<Game> addGame(Game game) async {
+  Future<Game> persistGame(Game game) async {
     game.id = await db.insert(
       tableName,
       game.toMap(),
       // just skip duplicate players
-      conflictAlgorithm: ConflictAlgorithm.fail,
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
     for (Player player in game.players) {
