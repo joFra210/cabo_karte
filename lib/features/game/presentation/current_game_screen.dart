@@ -19,22 +19,23 @@ class _CurrentGameScreenState extends State<CurrentGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Aktuelles Spiel:'),
-        ),
-        body: FutureBuilder(
-          future: getCurrentGame(),
-          builder: (context, AsyncSnapshot<Game> snapshot) {
-            if (snapshot.hasData) {
-              return GameWidget(currentGame: snapshot.data!);
-            } else if (snapshot.hasError) {
-              return AlertDialog(
-                content: Text(snapshot.error.toString()),
-              );
-            }
-            return const Text(
-                'spiel hier anzeigen aber is wohl grad keins da...');
-          },
-        ));
+      appBar: AppBar(
+        title: const Text('Aktuelles Spiel:'),
+      ),
+      body: FutureBuilder(
+        future: getCurrentGame(),
+        builder: (context, AsyncSnapshot<Game> snapshot) {
+          if (snapshot.hasData) {
+            return GameWidget(currentGame: snapshot.data!);
+          } else if (snapshot.hasError) {
+            return AlertDialog(
+              content: Text(snapshot.error.toString()),
+            );
+          }
+          return const Text(
+              'spiel hier anzeigen aber is wohl grad keins da...');
+        },
+      ),
+    );
   }
 }
