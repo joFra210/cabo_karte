@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:cabo_karte/features/player/domain/player.dart';
+
 class Round {
   int number;
   Map<int, int> playerScores = <int, int>{};
+  int? caboCallerId;
 
   Round({
     required this.number,
+    this.caboCallerId,
   });
 
   void addPlayerScore(int playerId, int value) {
@@ -46,6 +50,7 @@ class Round {
   static Round fromJson(Map<String, dynamic> json) {
     Round round = Round(
       number: json['number'],
+      caboCallerId: json['caboCallerId'],
     );
     // maybe change dynamic to int here
     Map<String, dynamic> playerScoresDynamic = jsonDecode(
@@ -63,6 +68,7 @@ class Round {
   static Map<String, dynamic> toJson(Round round) {
     return {
       'number': round.number,
+      'caboCallerId': round.caboCallerId,
       'playerScores': jsonEncode(
         round.playerScores,
         toEncodable: (nonEncodable) {
