@@ -1,3 +1,4 @@
+import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/features/game/domain/round.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,9 @@ class _RoundsWidgetState extends State<RoundsWidget> {
           ElevatedButton(
             onPressed: () {
               addRound();
+              Navigator.of(context).pushNamed(
+                Routes.newRound,
+              );
             },
             child: const Text('Runde anlegen'),
           ),

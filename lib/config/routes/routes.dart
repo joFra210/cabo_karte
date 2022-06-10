@@ -6,6 +6,7 @@ class Routes {
   static String root = "/";
   static String games = "/games";
   static String currentGame = "/games/current";
+  static String newRound = "/games/current/new-round";
   static String newGame = "/games/new-game";
   static String rounds = "/games/:game-id/rounds";
   static String players = "/players";
@@ -24,5 +25,6 @@ class Routes {
     router.define(players, handler: playerHandler);
     router.define(newGame, handler: newGameHandler);
     router.define(currentGame, handler: currentGameHandler);
+    router.define(newRound, handler: newRoundHandler);
   }
 }
