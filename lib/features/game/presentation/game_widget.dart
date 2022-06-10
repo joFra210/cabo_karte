@@ -8,9 +8,11 @@ class GameWidget extends StatefulWidget {
   const GameWidget({
     Key? key,
     required this.currentGame,
+    required this.onGameChanged,
   }) : super(key: key);
 
   final Game currentGame;
+  final ValueChanged<Game> onGameChanged;
 
   @override
   State<GameWidget> createState() => _GameWidgetState();
@@ -32,20 +34,9 @@ class _GameWidgetState extends State<GameWidget> {
   void _handleRoundsChanged(List<Round> rounds) {
     setState(() {
       widget.currentGame.rounds = rounds;
+      widget.onGameChanged(widget.currentGame);
     });
     print('finished: ' + widget.currentGame.finished.toString());
-  }
-
-  // A method that launches the SelectionScreen and awaits the result from
-  // Navigator.pop.
-  Future<void> _navigateAndGetCreatedRound(BuildContext context) async {
-    final result = await Navigator.of(context).pushNamed(
-      Routes.currentRounds,
-      arguments: [
-        widget.currentGame,
-        _handleRoundsChanged,
-      ],
-    );
   }
 
   void _handleRoundsButton() {

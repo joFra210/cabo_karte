@@ -11,9 +11,15 @@ class CurrentGameScreen extends StatefulWidget {
 }
 
 class _CurrentGameScreenState extends State<CurrentGameScreen> {
-  Future<Game> getCurrentGame() async {
+  Future<Game> get currentGame async {
     GameProvider provider = await GameProvider().gameProvider;
     return provider.getCurrentGame();
+  }
+
+  void saveGame(Game game) async {
+    GameProvider provider = await GameProvider().gameProvider;
+    provider.persistGame(game);
+    print('GAME SAVED');
   }
 
   @override
@@ -23,10 +29,13 @@ class _CurrentGameScreenState extends State<CurrentGameScreen> {
         title: const Text('Aktuelles Spiel:'),
       ),
       body: FutureBuilder(
-        future: getCurrentGame(),
+        future: currentGame,
         builder: (context, AsyncSnapshot<Game> snapshot) {
           if (snapshot.hasData) {
-            return GameWidget(currentGame: snapshot.data!);
+            return GameWidget(
+              currentGame: snapshot.data!,
+              onGameChanged: saveGame,
+            );
           } else if (snapshot.hasError) {
             return AlertDialog(
               content: Text(snapshot.error.toString()),

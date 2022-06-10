@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cabo_karte/features/game/domain/round.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
 
@@ -57,6 +59,12 @@ class Game {
     Map<String, dynamic> map = <String, dynamic>{
       'date': date.toIso8601String(),
       'finished': finished == true ? 1 : 0, // transform bool value to int
+      'rounds': jsonEncode(
+        rounds,
+        toEncodable: (Object? round) => round is Round
+            ? Round.toJson(round)
+            : throw Exception('object is no round!?'),
+      ),
     };
     if (id != null) {
       // let database set int value don't include on your own
@@ -95,11 +103,25 @@ class Game {
   }
 
   static Game fromMap(Map<dynamic, dynamic> map) {
-    return Game(
+    Game game = Game(
       id: map['id'],
       date: DateTime.parse(map['date']),
       players: map['players'], // transform int value to bool
     );
+    if (map['rounds'] != null) {
+      List<dynamic> roundsListDynamic = jsonDecode(
+        map['rounds'],
+      );
+      List<Round> roundsList = roundsListDynamic
+          .map((e) => Round.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      print('Game from Map Roundslist: ' + roundsList.toString());
+
+      game.rounds = roundsList;
+    }
+
+    return game;
   }
 
   // Implement toString to make it easier to see information about

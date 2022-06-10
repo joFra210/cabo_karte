@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Round {
   int number;
   Map<int, int> playerScores = <int, int>{};
@@ -39,5 +41,40 @@ class Round {
   @override
   String toString() {
     return 'Round{number: $number, playerScores: $playerScores}';
+  }
+
+  static Round fromJson(Map<String, dynamic> json) {
+    Round round = Round(
+      number: json['number'],
+    );
+    // maybe change dynamic to int here
+    Map<String, dynamic> playerScoresDynamic = jsonDecode(
+      json['playerScores'],
+    );
+    Map<int, int> playerScoresMapped = playerScoresDynamic.map(
+      (key, value) => MapEntry(int.parse(key), value),
+    );
+
+    round.playerScores = playerScoresMapped;
+
+    return round;
+  }
+
+  static Map<String, dynamic> toJson(Round round) {
+    return {
+      'number': round.number,
+      'playerScores': jsonEncode(
+        round.playerScores,
+        toEncodable: (nonEncodable) {
+          if (nonEncodable is Map<int, int>) {
+            return nonEncodable.map(
+              (key, value) {
+                return MapEntry(key.toString(), value);
+              },
+            );
+          }
+        },
+      ),
+    };
   }
 }
