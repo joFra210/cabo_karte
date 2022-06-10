@@ -56,7 +56,7 @@ class Game {
   }
 
   int getScoreForPlayer(int id) {
-    return playerScores[id]!;
+    return playerScores[id] ?? 0;
   }
 
   Map<String, dynamic> toMap() {
