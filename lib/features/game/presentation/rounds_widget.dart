@@ -41,7 +41,6 @@ class _RoundsWidgetState extends State<RoundsWidget> {
   }
 
   bool isFinished() {
-    print('Rounds WIdget finished:' + widget.game.finished.toString());
     return widget.game.finished;
   }
 

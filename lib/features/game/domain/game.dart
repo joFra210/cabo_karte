@@ -89,7 +89,6 @@ class Game {
         return _finished;
       }
     }
-    print('PlayerScores: $playerScores');
     return _finished;
   }
 
