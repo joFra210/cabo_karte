@@ -42,7 +42,8 @@ class _CurrentGameScreenState extends State<CurrentGameScreen> {
             );
           }
           return const Text(
-              'spiel hier anzeigen aber is wohl grad keins da...');
+            'spiel hier anzeigen aber is wohl grad keins da...',
+          );
         },
       ),
     );
