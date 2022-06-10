@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:cabo_karte/features/player/domain/player.dart';
-
 class Round {
   int number;
   Map<int, int> playerScores = <int, int>{};
@@ -16,26 +14,36 @@ class Round {
     playerScores[playerId] = value;
   }
 
+  int get winnerId {
+    return getLowestScore()!.key;
+  }
+
+  bool get isKamikaze {
+    return playerScores.containsValue(50);
+  }
+
+  /// get lowest score or return Kamikaze score if it happened
   MapEntry<int, int>? getLowestScore() {
     MapEntry<int, int> lowestScore;
 
     if (playerScores.isNotEmpty) {
-      lowestScore =
-          playerScores.entries.reduce((returnValue, iterationalElement) {
-        // if player has cabo return this value
-        if (iterationalElement.value == 50) {
-          return iterationalElement;
-        }
-        // if previous player had cabo always return that value
-        if (returnValue.value == 50) {
-          return returnValue;
-        }
+      lowestScore = playerScores.entries.reduce(
+        (returnValue, iterationalElement) {
+          // if player has cabo return this value
+          if (iterationalElement.value == 50) {
+            return iterationalElement;
+          }
+          // if previous player had cabo always return that value
+          if (returnValue.value == 50) {
+            return returnValue;
+          }
+          // else return the smallest value
+          return returnValue.value < iterationalElement.value
+              ? returnValue
+              : iterationalElement;
+        },
+      );
 
-        // else return the smallest value
-        return returnValue.value < iterationalElement.value
-            ? returnValue
-            : iterationalElement;
-      });
       return lowestScore;
     }
 
