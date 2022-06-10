@@ -1,10 +1,10 @@
 class Player {
-  final int id;
-  final String name;
+  int? id;
+  String name;
   int? overallScore;
 
   Player({
-    required this.id,
+    this.id,
     required this.name,
     this.overallScore,
   });
@@ -12,11 +12,22 @@ class Player {
   // Convert a Player into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
+    Map<String, dynamic> map = <String, dynamic>{
       'name': name,
       'overallScore': overallScore,
     };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
+
+  static Player fromMap(Map<dynamic, dynamic> map) {
+    return Player(
+      id: map['id'],
+      name: map['name'],
+      overallScore: map['overallScore'],
+    );
   }
 
   // Implement toString to make it easier to see information about
