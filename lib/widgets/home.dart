@@ -23,7 +23,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool _currentGame = false;
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done

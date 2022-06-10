@@ -5,7 +5,7 @@ import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListWidget extends StatefulWidget {
-  PlayerListWidget({
+  const PlayerListWidget({
     Key? key,
     this.deleteButton = false,
     required this.activePlayers,
@@ -15,8 +15,8 @@ class PlayerListWidget extends StatefulWidget {
 
   final Set<Player> activePlayers;
   final ValueChanged<Set<Player>> onChanged;
-  bool listOnly;
-  bool deleteButton;
+  final bool listOnly;
+  final bool deleteButton;
 
   @override
   State<PlayerListWidget> createState() => _PlayerListWidgetState();
