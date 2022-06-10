@@ -62,6 +62,7 @@ class DatabaseProvider {
           'id INTEGER PRIMARY KEY, '
           'leaderName TEXT, '
           'date TEXT, '
+          'rounds TEXT, '
           'finished INTEGER);',
         );
         db.execute(
