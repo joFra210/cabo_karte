@@ -15,7 +15,14 @@ class Round {
   }
 
   int get winnerId {
+    if (winnerScore!.value == playerScores[caboCallerId]) {
+      return caboCallerId!;
+    }
     return winnerScore!.key;
+  }
+
+  bool hasIdLowestScore(int id) {
+    return playerScores[id]! <= winnerScore!.value;
   }
 
   bool get isKamikaze {

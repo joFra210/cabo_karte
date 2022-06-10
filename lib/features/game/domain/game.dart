@@ -67,8 +67,23 @@ class Game {
           // add points to existing entry if it exists,
           // else create entry with score for player
           playerScores = addToPlayerScore(
-              playerScores, player.id!, round.playerScores[player.id!]!);
+            playerScores,
+            player.id!,
+            round.playerScores[player.id!]!,
+          );
         }
+        // if player said cabo, but hasn't got the lowest score,
+        // add 5 penalty points
+        if (player.id == round.caboCallerId &&
+            !round.hasIdLowestScore(player.id!)) {
+          print('player ' +
+              player.id.toString() +
+              ' said cabo incorrectly in runde ' +
+              round.number.toString() +
+              ', 5 strafpunkte');
+          playerScores = addToPlayerScore(playerScores, player.id!, 5);
+        }
+
         // if player hits 100 points exactly, reduce score to 50
         if (playerScores[player.id!] == 100) {
           playerScores[player.id!] = 50;
@@ -80,6 +95,7 @@ class Game {
 
   /// add points to existing entry if it exists,
   /// else create entry with score for player
+  /// return map when done
   Map<int, int> addToPlayerScore(
     Map<int, int> playerScores,
     int playerId,
