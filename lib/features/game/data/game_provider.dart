@@ -1,5 +1,6 @@
 import 'package:cabo_karte/features/app/data/database_provider.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
+import 'package:cabo_karte/features/player/data/player_provider.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -25,6 +26,8 @@ class GameProvider {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
+    print(game.players);
+
     for (Player player in game.players) {
       await db.insert(
         playerJoinTableName,
@@ -40,11 +43,44 @@ class GameProvider {
   }
 
   Future<void> printGames() async {
-    final List<Map<String, dynamic>> maps = await db.query(tableName);
-    final List<Map<String, dynamic>> playerGamesJoinMaps =
-        await db.query(playerJoinTableName);
+    Game currentGame = await getCurrentGame();
 
-    print(maps);
-    print(playerGamesJoinMaps);
+    print('CURRENT GAME: $currentGame');
+  }
+
+  Future<Game> getCurrentGame() async {
+    final List<Map<String, dynamic>> gameMaps = await db.query(tableName);
+    Map<String, dynamic> currentGameMap =
+        Map<String, dynamic>.from(gameMaps.last);
+    int gameId = currentGameMap['id'];
+
+    final List<Map<String, dynamic>> playerGamesJoinMaps = await db
+        .query(playerJoinTableName, where: 'game_id = ?', whereArgs: [gameId]);
+
+    currentGameMap['players'] =
+        await playerSetFromJoinMaps(playerGamesJoinMaps);
+
+    return Game.fromMap(currentGameMap);
+  }
+
+  /// Iterate over over Games/Players JoinTable entries and generate Set of
+  /// Player objects
+  static Future<Set<Player>> playerSetFromJoinMaps(
+    List<Map<dynamic, dynamic>> playersGamesMaps,
+  ) async {
+    PlayerProvider playerProvider = await PlayerProvider().playerProvider;
+    Set<Player> playerSet = {};
+
+    // iterate over Games/Players JoinTable entries and generate Player objects
+    for (Map<dynamic, dynamic> joinTableMap in playersGamesMaps) {
+      int playerId = joinTableMap['player_id'];
+
+      // use playerProvider to get Playerobjects from db
+      Player player = await playerProvider.getPlayer(playerId);
+      // populate playerSet with generated Objects
+      playerSet.add(player);
+    }
+
+    return playerSet;
   }
 }

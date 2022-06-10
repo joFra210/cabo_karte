@@ -15,16 +15,18 @@ class NewGameForm extends StatefulWidget {
 class _NewGameFormState extends State<NewGameForm> {
   final _formKey = GlobalKey<FormState>();
   Set<Player> _currentPlayers = <Player>{};
-  Game? _newGame = null;
+  Game? _newGame;
   final _gameProvider = GameProvider();
+  bool enoughPlayers = false;
 
   void _handlePlayersChanged(Set<Player> players) {
     setState(() {
       _currentPlayers = players;
+      enoughPlayers = _currentPlayers.length >= 2;
     });
   }
 
-  void _persistGame() async {
+  Future<void> _persistGame() async {
     _newGame = Game(
       date: DateTime.now(),
       players: _currentPlayers,
@@ -34,20 +36,6 @@ class _NewGameFormState extends State<NewGameForm> {
 
   @override
   Widget build(BuildContext context) {
-    final tiles = _currentPlayers.map(
-      (Player player) {
-        return ListTile(
-          title: Text(player.name),
-        );
-      },
-    );
-    final divided = tiles.isNotEmpty
-        ? ListTile.divideTiles(
-            context: context,
-            tiles: tiles,
-          ).toList()
-        : <Widget>[];
-
     return Form(
       key: _formKey,
       child: Column(
@@ -61,15 +49,20 @@ class _NewGameFormState extends State<NewGameForm> {
               onChanged: _handlePlayersChanged,
             ),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              _persistGame();
+          Padding(
+            padding: const EdgeInsets.only(top: 50),
+            child: enoughPlayers
+                ? ElevatedButton(
+                    onPressed: () async {
+                      // await _persistGame();
 
-              print('spiel sollte jetzt in db liegen: $_newGame');
+                      print('spiel sollte jetzt in db liegen: $_newGame');
 
-              await _gameProvider.printGames();
-            },
-            child: const Text('Spiel anlegen'),
+                      await _gameProvider.printGames();
+                    },
+                    child: const Text('Spiel anlegen'),
+                  )
+                : const Text('Nicht genug spieler zum spiel hinzugefügt.'),
           ),
         ],
       ),

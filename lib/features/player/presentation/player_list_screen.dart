@@ -12,19 +12,18 @@ class PlayerListScreen extends StatefulWidget {
 }
 
 class _PlayerListScreenState extends State<PlayerListScreen> {
-  PlayerProvider playerProvider = PlayerProvider();
-
   Future<List<Player>> getplayerList() async {
-    await playerProvider.openDb();
+    PlayerProvider playerProvider = await PlayerProvider().playerProvider;
+
     List<Player> list = await playerProvider.getAllPlayers();
     return list;
   }
 
-  @override
-  void dispose() async {
-    // Clean up the controller when the widget is disposed.
-    super.dispose();
-    await playerProvider.close();
+  Future<void> _handlePlayerTap(int id) async {
+    PlayerProvider playerProvider = await PlayerProvider().playerProvider;
+
+    await playerProvider.delete(id);
+    setState(() {});
   }
 
   @override
@@ -88,8 +87,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                             semanticLabel: 'Remove',
                           ),
                           onTap: () async {
-                            await playerProvider.delete(player.id!);
-                            setState(() {});
+                            await _handlePlayerTap(player.id!);
                           },
                         );
                       },

@@ -3,20 +3,31 @@ import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PlayerProvider {
-  late Database db;
+  late Database _db;
   String tableName = 'players';
 
-  PlayerProvider() {
-    openDb();
+  // Make this a singleton class
+  PlayerProvider._privateConstructor();
+
+  static final PlayerProvider _instance = PlayerProvider._privateConstructor();
+
+  factory PlayerProvider() => _instance;
+
+  Future<PlayerProvider> get playerProvider async {
+    PlayerProvider provider = await _instance.openDb();
+
+    return provider;
   }
 
-  Future<void> openDb() async {
+  Future<PlayerProvider> openDb() async {
     // Open the database and store the reference.
-    db = await DatabaseProvider().database;
+    _db = await DatabaseProvider().database;
+
+    return this;
   }
 
   Future<Player> insertPlayer(Player player) async {
-    player.id = await db.insert(
+    player.id = await _db.insert(
       tableName,
       player.toMap(),
       // just skip duplicate players
@@ -26,7 +37,7 @@ class PlayerProvider {
   }
 
   Future<Player> getPlayer(int id) async {
-    List<Map> maps = await db.query(
+    List<Map> maps = await _db.query(
       tableName,
       where: 'id = ?',
       whereArgs: [id],
@@ -41,7 +52,7 @@ class PlayerProvider {
   // A method that retrieves all the dawgs from the players table.
   Future<List<Player>> getAllPlayers() async {
     // Query the table for all the Players.
-    final List<Map<String, dynamic>> maps = await db.query('players');
+    final List<Map<String, dynamic>> maps = await _db.query('players');
 
     // Convert the List<Map<String, dynamic> into a List<Player>.
     return List.generate(
@@ -57,7 +68,7 @@ class PlayerProvider {
   }
 
   Future<int> delete(int id) async {
-    return await db.delete(
+    return await _db.delete(
       tableName,
       where: 'id = ?',
       whereArgs: [id],
@@ -65,9 +76,9 @@ class PlayerProvider {
   }
 
   Future<int> update(Player player) async {
-    return await db.update(tableName, player.toMap(),
+    return await _db.update(tableName, player.toMap(),
         where: 'id = ?', whereArgs: [player.id]);
   }
 
-  Future<void> close() async => await db.close();
+  Future<void> close() async => await _db.close();
 }

@@ -28,9 +28,8 @@ class PlayerFormState extends State<PlayerForm> {
   // of the TextField.
   final playerFormController = TextEditingController();
 
-  PlayerProvider playerProvider = PlayerProvider();
-
   Future<Player> insertNewPlayer(Player newPlayer) async {
+    PlayerProvider playerProvider = await PlayerProvider().playerProvider;
     Player player = await playerProvider.insertPlayer(newPlayer);
     return player;
   }

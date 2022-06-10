@@ -11,7 +11,7 @@ void dbConnection() async {
   );
 
   // create new provider instance
-  var playerProvider = PlayerProvider();
+  var playerProvider = await PlayerProvider().playerProvider;
   // establish and open db connection
   await playerProvider.openDb();
   // insert fide
