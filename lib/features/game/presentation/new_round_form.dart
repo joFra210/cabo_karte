@@ -23,6 +23,7 @@ class _RoundFormState extends State<RoundForm> {
   final _formKey = GlobalKey<FormState>();
 
   final Round _round = Round(number: 0);
+  Player? _caboPlayer;
 
   @override
   void initState() {
@@ -64,6 +65,15 @@ class _RoundFormState extends State<RoundForm> {
               } on FormatException {
                 print('do not use letters here');
               }
+            },
+          ),
+          leading: Radio<Player>(
+            value: player,
+            groupValue: _caboPlayer,
+            onChanged: (Player? value) {
+              setState(() {
+                _caboPlayer = value;
+              });
             },
           ),
         );
