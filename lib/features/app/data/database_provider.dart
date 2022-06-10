@@ -43,20 +43,28 @@ class DatabaseProvider {
       // `path` package is best practice to ensure the path is correctly
       // constructed for each platform.
       join(await getDatabasesPath(), Application.dbName),
-      // When the database is first created, create a table to store dogs.
-      onCreate: (db, version) {
-        db.execute(
+      onConfigure: (db) {
+        return db.execute(
           'PRAGMA foreign_keys = ON;',
         );
+      },
+      // When the database is first created, create a table to store stuff.
+      onCreate: (db, version) {
         // Run the CREATE TABLE statements on the database.
         db.execute(
-          'CREATE TABLE $tableNamePlayers(id INTEGER PRIMARY KEY, name TEXT KEY UNIQUE, overallScore INTEGER);',
+          'CREATE TABLE $tableNamePlayers('
+          'id INTEGER PRIMARY KEY, '
+          'name TEXT KEY UNIQUE, '
+          'overallScore INTEGER);',
         );
         db.execute(
           'CREATE TABLE $tableNameGames(id INTEGER PRIMARY KEY, leaderName TEXT);',
         );
         db.execute(
-          'CREATE TABLE $tableNameGamesPlayers(player_id INTEGER, game_id INTEGER, FOREIGN KEY(player_id) REFERENCES $tableNamePlayers(id) ON DELETE CASCADE, FOREIGN KEY(game_id) REFERENCES $tableNameGames(id) ON DELETE CASCADE);',
+          'CREATE TABLE $tableNameGamesPlayers('
+          'player_id INTEGER, game_id INTEGER, '
+          'FOREIGN KEY(player_id) REFERENCES $tableNamePlayers(id) ON DELETE CASCADE, '
+          'FOREIGN KEY(game_id) REFERENCES $tableNameGames(id) ON DELETE CASCADE);',
         );
         db.execute(
           'CREATE INDEX player_index ON $tableNameGamesPlayers(player_id);',
