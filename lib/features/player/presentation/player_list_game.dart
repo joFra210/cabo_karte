@@ -35,57 +35,68 @@ class _PlayerListGameWidgetState extends State<PlayerListGameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        final tiles = playersList.map(
-          (player) {
-            return ListTile(
-              title: Text(
-                player.name,
-              ),
-              trailing: Text(
-                widget.game.getScoreForPlayer(player.id!).toString(),
-              ),
-              onTap: () {
-                _handleListTileTap(player);
+    return Column(
+      children: [
+        Container(
+          color: CaboColors.caboGreenDark,
+          child: const ListTile(
+            title: Text('Name'),
+            trailing: Text('Punkte'),
+          ),
+        ),
+        Builder(
+          builder: (context) {
+            final tiles = playersList.map(
+              (player) {
+                return ListTile(
+                  title: Text(
+                    player.name,
+                  ),
+                  trailing: Text(
+                    widget.game.getScoreForPlayer(player.id!).toString(),
+                  ),
+                  onTap: () {
+                    _handleListTileTap(player);
+                  },
+                );
               },
             );
-          },
-        );
-        if (tiles.isNotEmpty) {
-          final divided = ListTile.divideTiles(
-            context: context,
-            tiles: tiles,
-          ).toList();
+            if (tiles.isNotEmpty) {
+              final divided = ListTile.divideTiles(
+                context: context,
+                tiles: tiles,
+              ).toList();
 
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: divided.length,
-            itemBuilder: (context, index) {
-              return divided[index];
-            },
-          );
-        } else {
-          return Padding(
-            padding: const EdgeInsets.only(top: 50),
-            child: Flex(
-              direction: Axis.vertical,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Noch keine Spieler angelegt:'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      Routes.addPlayer,
-                    );
-                  },
-                  child: const Text('Neue Spieler anlegen'),
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: divided.length,
+                itemBuilder: (context, index) {
+                  return divided[index];
+                },
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Flex(
+                  direction: Axis.vertical,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('Noch keine Spieler angelegt:'),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          Routes.addPlayer,
+                        );
+                      },
+                      child: const Text('Neue Spieler anlegen'),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        }
-      },
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }
