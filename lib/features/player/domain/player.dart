@@ -36,4 +36,17 @@ class Player {
   String toString() {
     return 'Player{id: $id, name: $name, overallScore: $overallScore}';
   }
+
+  @override
+  int get hashCode =>
+      (id.hashCode.toString() + name.hashCode.toString()).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Player) {
+      return id == other.id && name == other.name;
+    } else {
+      return false;
+    }
+  }
 }

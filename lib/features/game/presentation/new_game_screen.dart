@@ -1,3 +1,4 @@
+import 'package:cabo_karte/features/game/presentation/new_game_form.dart';
 import 'package:flutter/material.dart';
 
 class NewGameScreen extends StatefulWidget {
@@ -12,10 +13,10 @@ class _NewGameScreenState extends State<NewGameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Spieler:in hinzufügen'),
+        title: const Text('Neues Spiel:'),
       ),
       body: const Center(
-        child: Text('Gugu'),
+        child: NewGameForm(),
       ),
     );
   }
