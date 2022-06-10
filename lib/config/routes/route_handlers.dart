@@ -1,5 +1,5 @@
 import 'package:cabo_karte/features/player/presentation/new_player_widget.dart';
-import 'package:cabo_karte/widgets/form.dart';
+import 'package:cabo_karte/features/player/presentation/new_player_form.dart';
 import 'package:cabo_karte/widgets/root.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
