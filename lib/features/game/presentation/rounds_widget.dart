@@ -1,15 +1,20 @@
+import 'package:cabo_karte/config/application.dart';
 import 'package:cabo_karte/config/routes/routes.dart';
+import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/features/game/domain/round.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 class RoundsWidget extends StatefulWidget {
   const RoundsWidget({
     Key? key,
     required this.players,
+    required this.roundNumber,
   }) : super(key: key);
 
   final Set<Player> players;
+  final int roundNumber;
 
   @override
   State<RoundsWidget> createState() => _RoundsWidgetState();
@@ -27,18 +32,34 @@ class _RoundsWidgetState extends State<RoundsWidget> {
     throw Exception('No player with given id in game!');
   }
 
+  int getRoundNumber() {
+    if (widget.roundNumber > _rounds.length) {
+      return widget.roundNumber;
+    }
+    return _rounds.length + 1;
+  }
+
   List<Widget> generateRoundList() {
     List<ListTile> roundList = <ListTile>[];
 
     for (Round round in _rounds) {
-      int? winnerId = round.getWinnerId();
+      MapEntry<int, int>? winnerScore = round.getLowestScore();
+
+      bool isKamikazeScore = winnerScore?.value == 50;
 
       roundList.add(
         ListTile(
           leading: Text(
             round.number.toString(),
           ),
-          title: Text(winnerId.toString()),
+          title: Text(
+            winnerScore?.key.toString() ?? 'Null',
+          ),
+          trailing: Text(
+            isKamikazeScore
+                ? 'KAMIKAZE'
+                : winnerScore?.value.toString() ?? 'Null',
+          ),
         ),
       );
     }
@@ -51,28 +72,48 @@ class _RoundsWidgetState extends State<RoundsWidget> {
     return divided;
   }
 
-  void addRound() {
-    int roundNum = 1;
-    if (_rounds.isNotEmpty) {
-      roundNum = _rounds.last.number + 1;
+  // A method that launches the SelectionScreen and awaits the result from
+  // Navigator.pop.
+  Future<void> _navigateAndGetCreatedRound(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.of(context).pushNamed(
+      Routes.newRound,
+      arguments: [
+        widget.players,
+        getRoundNumber(),
+      ],
+    );
+
+    // After the Selection Screen returns a result, hide any previous snackbars
+    // and show the new result.
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text('Round came back as: $result')));
+
+    if (result is Round) {
+      setState(() {
+        _rounds.add(result);
+      });
     }
-
-    Round round = Round(number: roundNum);
-
-    setState(() {
-      _rounds.add(round);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints:
-          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 3),
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
       child: Column(
         children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 150),
+          Container(
+            color: CaboColors.caboGreenDark,
+            child: const ListTile(
+              leading: Text('#'),
+              title: Text('Gewinner'),
+              trailing: Text('Punkte'),
+            ),
+          ),
+          Expanded(
             child: ListView(
               children: generateRoundList(),
             ),
@@ -80,10 +121,9 @@ class _RoundsWidgetState extends State<RoundsWidget> {
           const Text('add rounds here'),
           ElevatedButton(
             onPressed: () {
-              addRound();
-              Navigator.of(context).pushNamed(
-                Routes.newRound,
-              );
+              // addRound();
+
+              _navigateAndGetCreatedRound(context);
             },
             child: const Text('Runde anlegen'),
           ),

@@ -24,7 +24,6 @@ class GameWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -41,6 +40,7 @@ class GameWidget extends StatelessWidget {
           ),
           RoundsWidget(
             players: currentGame.players,
+            roundNumber: currentGame.getNextRoundNumber(),
           ),
         ],
       ),

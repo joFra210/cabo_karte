@@ -59,20 +59,23 @@ class GameProvider {
 
   Future<Game> getCurrentGame() async {
     final List<Map<String, dynamic>> gameMaps = await _db.query(tableName);
-    Map<String, dynamic> currentGameMap =
-        Map<String, dynamic>.from(gameMaps.last);
-    if (currentGameMap.isNotEmpty) {
-      int gameId = currentGameMap['id'];
 
-      final List<Map<String, dynamic>> playerGamesJoinMaps = await _db.query(
-          playerJoinTableName,
-          where: 'game_id = ?',
-          whereArgs: [gameId]);
+    if (gameMaps.isNotEmpty) {
+      Map<String, dynamic> currentGameMap =
+          Map<String, dynamic>.from(gameMaps.last);
+      if (currentGameMap.isNotEmpty) {
+        int gameId = currentGameMap['id'];
 
-      currentGameMap['players'] =
-          await playerSetFromJoinMaps(playerGamesJoinMaps);
+        final List<Map<String, dynamic>> playerGamesJoinMaps = await _db.query(
+            playerJoinTableName,
+            where: 'game_id = ?',
+            whereArgs: [gameId]);
 
-      return Game.fromMap(currentGameMap);
+        currentGameMap['players'] =
+            await playerSetFromJoinMaps(playerGamesJoinMaps);
+
+        return Game.fromMap(currentGameMap);
+      }
     }
 
     throw Exception('No current game available...');

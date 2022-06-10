@@ -1,0 +1,3 @@
+class ListViewGenerator {
+  getListViewForPlayerList(playerlist) {}
+}

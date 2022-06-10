@@ -20,6 +20,10 @@ class Game {
     _rounds.add(round);
   }
 
+  int getNextRoundNumber() {
+    return _rounds.length + 1;
+  }
+
   String? getLeaderName() {
     return _leaderName;
   }

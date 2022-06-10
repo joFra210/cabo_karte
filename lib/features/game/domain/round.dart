@@ -13,14 +13,27 @@ class Round {
     playerScores[playerId] = value;
   }
 
-  int? getWinnerId() {
+  MapEntry<int, int>? getLowestScore() {
     MapEntry<int, int> lowestScore;
 
     if (playerScores.isNotEmpty) {
-      lowestScore = playerScores.entries.reduce(
-        (value, element) => value.value < element.value ? value : element,
-      );
-      return lowestScore.key;
+      lowestScore =
+          playerScores.entries.reduce((returnValue, iterationalElement) {
+        // if player has cabo return this value
+        if (iterationalElement.value == 50) {
+          return iterationalElement;
+        }
+        // if previous player had cabo always return that value
+        if (returnValue.value == 50) {
+          return returnValue;
+        }
+
+        // else return the smallest value
+        return returnValue.value < iterationalElement.value
+            ? returnValue
+            : iterationalElement;
+      });
+      return lowestScore;
     }
 
     return null;
