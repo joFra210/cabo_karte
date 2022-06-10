@@ -23,6 +23,6 @@ class Player {
   // each player when using the print statement.
   @override
   String toString() {
-    return 'Dog{id: $id, name: $name, overallScore: $overallScore}';
+    return 'Player{id: $id, name: $name, overallScore: $overallScore}';
   }
 }
