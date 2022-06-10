@@ -96,7 +96,7 @@ class _RoundFormState extends State<RoundForm> {
       child: Column(
         children: [
           Container(
-            color: CaboColors.caboGreenDark,
+            color: CaboColors.caboGreen,
             child: const ListTile(
               leading: Text('Cabo'),
               title: Text('Punkte'),
