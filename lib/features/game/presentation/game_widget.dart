@@ -2,6 +2,7 @@ import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/game/domain/round.dart';
 import 'package:cabo_karte/features/player/presentation/player_list.dart';
+import 'package:cabo_karte/features/player/presentation/player_list_game.dart';
 import 'package:flutter/material.dart';
 
 class GameWidget extends StatefulWidget {
@@ -63,10 +64,8 @@ class _GameWidgetState extends State<GameWidget> {
             'Date: ' + getFormattedDate(widget.currentGame.date.toLocal()),
           ),
           const Text('Spieler:'),
-          PlayerListWidget(
-            listOnly: true,
-            activePlayers: widget.currentGame.players,
-            onChanged: (player) {},
+          PlayerListGameWidget(
+            game: widget.currentGame,
           ),
           ElevatedButton(
             onPressed: _handleRoundsButton,

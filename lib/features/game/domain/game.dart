@@ -55,6 +55,10 @@ class Game {
     return playerScores;
   }
 
+  int getScoreForPlayer(int id) {
+    return playerScores[id]!;
+  }
+
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{
       'date': date.toIso8601String(),
