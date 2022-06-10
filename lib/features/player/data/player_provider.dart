@@ -3,13 +3,12 @@ import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class PlayerProvider {
   late Database db;
   String tableName = 'players';
 
-  Future openDb() async {
+  Future<void> openDb() async {
     // Avoid errors caused by flutter upgrade.
     // Importing 'package:flutter/widgets.dart' is required.
     WidgetsFlutterBinding.ensureInitialized();
@@ -33,9 +32,12 @@ class PlayerProvider {
   }
 
   Future<Player> insertPlayer(Player player) async {
-    player.id = await db.insert(tableName, player.toMap(),
-        // just skip duplicate players
-        conflictAlgorithm: ConflictAlgorithm.ignore);
+    player.id = await db.insert(
+      tableName,
+      player.toMap(),
+      // just skip duplicate players
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
     return player;
   }
 
@@ -83,5 +85,5 @@ class PlayerProvider {
         where: 'id = ?', whereArgs: [player.id]);
   }
 
-  Future close() async => db.close();
+  Future<void> close() async => await db.close();
 }

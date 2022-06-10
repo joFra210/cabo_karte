@@ -34,4 +34,5 @@ void dbConnection() async {
   await playerProvider.delete(fido.id!);
 
   print(await playerProvider.getAllPlayers()); // Should print an empty list
+  await playerProvider.close();
 }

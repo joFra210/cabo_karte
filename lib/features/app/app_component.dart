@@ -7,7 +7,6 @@
  * See LICENSE for distribution and usage details.
  */
 import 'package:cabo_karte/config/themes/dark_theme.dart';
-import 'package:cabo_karte/config/themes/light_theme.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
