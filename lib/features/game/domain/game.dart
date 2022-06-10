@@ -7,11 +7,13 @@ class Game {
   Set<Player> players;
   final _rounds = <Round>[];
   String? _leaderName;
+  bool finished;
 
   Game({
     required this.date,
     required this.players,
     this.id,
+    this.finished = false,
   });
 
   void addRound(Round round) {
@@ -46,6 +48,7 @@ class Game {
       id: map['id'],
       date: DateTime.parse(map['date']),
       players: map['players'],
+      finished: !!map['finished'],
     );
   }
 
