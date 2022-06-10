@@ -1,3 +1,4 @@
+import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/features/game/data/game_provider.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
@@ -16,7 +17,6 @@ class _NewGameFormState extends State<NewGameForm> {
   final _formKey = GlobalKey<FormState>();
   Set<Player> _currentPlayers = <Player>{};
   Game? _newGame;
-  final _gameProvider = GameProvider();
   bool enoughPlayers = false;
 
   void _handlePlayersChanged(Set<Player> players) {
@@ -27,11 +27,12 @@ class _NewGameFormState extends State<NewGameForm> {
   }
 
   Future<void> _persistGame() async {
+    GameProvider gameProvider = await GameProvider().gameProvider;
     _newGame = Game(
       date: DateTime.now(),
       players: _currentPlayers,
     );
-    _newGame = await _gameProvider.persistGame(_newGame!);
+    _newGame = await gameProvider.persistGame(_newGame!);
   }
 
   @override
@@ -54,11 +55,16 @@ class _NewGameFormState extends State<NewGameForm> {
             child: enoughPlayers
                 ? ElevatedButton(
                     onPressed: () async {
+                      GameProvider gameProvider =
+                          await GameProvider().gameProvider;
                       await _persistGame();
 
                       print('spiel sollte jetzt in db liegen: $_newGame');
 
-                      await _gameProvider.printCurrentGame();
+                      await gameProvider.printCurrentGame();
+                      Navigator.of(context).pushNamed(
+                        Routes.currentGame,
+                      );
                     },
                     child: const Text('Spiel anlegen'),
                   )
