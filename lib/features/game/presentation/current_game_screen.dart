@@ -10,17 +10,9 @@ class CurrentGameScreen extends StatefulWidget {
 }
 
 class _CurrentGameScreenState extends State<CurrentGameScreen> {
-  late Game currentGame;
-
   Future<Game> getCurrentGame() async {
     GameProvider provider = await GameProvider().gameProvider;
     return provider.getCurrentGame();
-  }
-
-  @override
-  void initState() {
-    getCurrentGame();
-    super.initState();
   }
 
   @override
@@ -34,6 +26,10 @@ class _CurrentGameScreenState extends State<CurrentGameScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Text(snapshot.data.toString());
+            } else if (snapshot.hasError) {
+              return AlertDialog(
+                content: Text(snapshot.error.toString()),
+              );
             }
             return const Text(
                 'spiel hier anzeigen aber is wohl grad keins da...');
