@@ -1,4 +1,6 @@
 import 'package:cabo_karte/config/routes/routes.dart';
+import 'package:cabo_karte/config/themes/cabo_colors.dart';
+import 'package:cabo_karte/config/themes/themes_config.dart';
 import 'package:cabo_karte/features/app/data/db_connection_test.dart';
 import 'package:flutter/material.dart';
 
@@ -72,6 +74,28 @@ class _HomeState extends State<Home> {
               child: const Text('Spielerliste anzeigen'),
             ),
             ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  CaboColors.caboRed,
+                ),
+                foregroundColor: MaterialStateProperty.all(
+                  CaboColors.white,
+                ),
+                textStyle: MaterialStateProperty.all(
+                  const TextStyle(
+                    fontSize: FontParams.fontSizeHeader,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  Routes.newGame,
+                );
+              },
+              child: const Text('Neues Spiel!'),
+            ),
+            ElevatedButton(
               onPressed: () {
                 dbConnection();
               },
@@ -79,7 +103,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
