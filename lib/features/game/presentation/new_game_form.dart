@@ -59,8 +59,6 @@ class _NewGameFormState extends State<NewGameForm> {
                           await GameProvider().gameProvider;
                       await _persistGame();
 
-                      print('spiel sollte jetzt in db liegen: $_newGame');
-
                       await gameProvider.printCurrentGame();
                       Navigator.of(context).popAndPushNamed(
                         Routes.currentGame,

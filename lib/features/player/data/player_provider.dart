@@ -61,7 +61,7 @@ class PlayerProvider {
         return Player(
           id: maps[i]['id'],
           name: maps[i]['name'],
-          overallScore: maps[i]['overallScore'],
+          numberOfWins: maps[i]['overallScore'] ?? 0,
         );
       },
     );

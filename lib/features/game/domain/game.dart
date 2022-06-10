@@ -5,27 +5,52 @@ class Game {
   int? id;
   DateTime date;
   Set<Player> players;
-  final _rounds = <Round>[];
+  List<Round> _rounds = <Round>[];
+  Map<int, int> _playerScores = <int, int>{};
   String? _leaderName;
-  bool finished;
+  bool _finished = false;
 
   Game({
     required this.date,
     required this.players,
     this.id,
-    this.finished = false,
   });
 
+  set rounds(List<Round> newRounds) {
+    _rounds = newRounds;
+    _playerScores = playerScores;
+  }
+
+  List<Round> get rounds {
+    return _rounds;
+  }
+
   void addRound(Round round) {
-    _rounds.add(round);
+    rounds.add(round);
   }
 
   int getNextRoundNumber() {
-    return _rounds.length + 1;
+    return rounds.length + 1;
   }
 
   String? getLeaderName() {
     return _leaderName;
+  }
+
+  get playerScores {
+    Map<int, int> playerScores = <int, int>{};
+    for (Player player in players) {
+      for (Round round in rounds) {
+        // if scores already contains key add to it, else put round score in it
+        if (playerScores.containsKey(player.id!)) {
+          playerScores[player.id!] =
+              playerScores[player.id!]! + round.playerScores[player.id!]!;
+        } else {
+          playerScores[player.id!] = round.playerScores[player.id!]!;
+        }
+      }
+    }
+    return playerScores;
   }
 
   Map<String, dynamic> toMap() {
@@ -38,6 +63,26 @@ class Game {
       map['id'] = id;
     }
     return map;
+  }
+
+  bool get finished {
+    for (MapEntry<int, int> scoreEntry in playerScores.entries) {
+      if (scoreEntry.value > 100) {
+        int playerId = scoreEntry.key;
+        int loserScore = scoreEntry.value;
+        int roundLength = rounds.length;
+
+        Player loser = players.firstWhere((element) => element.id == playerId);
+        String playerName = loser.name;
+
+        _finished = true;
+        print(
+            'player: $playerName has $loserScore points after $roundLength rounds!');
+        return _finished;
+      }
+    }
+    print('PlayerScores: $playerScores');
+    return _finished;
   }
 
   void addPlayer(Player player) {
@@ -53,8 +98,7 @@ class Game {
     return Game(
       id: map['id'],
       date: DateTime.parse(map['date']),
-      players: map['players'],
-      finished: map['finished'] == 1, // transform int value to bool
+      players: map['players'], // transform int value to bool
     );
   }
 
@@ -62,6 +106,6 @@ class Game {
   // each player when using the print statement.
   @override
   String toString() {
-    return 'Game{id: $id, date: $date, players: $players, finished: $finished}';
+    return 'Game{id: $id, date: $date, players: $players, finished: $finished, rounds:$rounds}';
   }
 }

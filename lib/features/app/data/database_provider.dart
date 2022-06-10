@@ -55,7 +55,7 @@ class DatabaseProvider {
           'CREATE TABLE $tableNamePlayers('
           'id INTEGER PRIMARY KEY, '
           'name TEXT KEY UNIQUE, '
-          'overallScore INTEGER);',
+          'numberOfWins INTEGER);',
         );
         db.execute(
           'CREATE TABLE $tableNameGames('

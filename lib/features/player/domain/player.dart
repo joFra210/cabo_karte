@@ -1,12 +1,12 @@
 class Player {
   int? id;
   String name;
-  int? overallScore;
+  int numberOfWins;
 
   Player({
     this.id,
     required this.name,
-    this.overallScore,
+    this.numberOfWins = 0,
   });
 
   // Convert a Player into a Map. The keys must correspond to the names of the
@@ -14,7 +14,7 @@ class Player {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{
       'name': name,
-      'overallScore': overallScore,
+      'overallScore': numberOfWins,
     };
     if (id != null) {
       map['id'] = id;
@@ -26,7 +26,7 @@ class Player {
     return Player(
       id: map['id'],
       name: map['name'],
-      overallScore: map['overallScore'],
+      numberOfWins: map['overallScore'] ?? 0,
     );
   }
 
@@ -34,7 +34,7 @@ class Player {
   // each player when using the print statement.
   @override
   String toString() {
-    return 'Player{id: $id, name: $name, overallScore: $overallScore}';
+    return 'Player{id: $id, name: $name, overallScore: $numberOfWins}';
   }
 
   @override

@@ -1,7 +1,6 @@
 import 'package:cabo_karte/features/game/presentation/current_game_screen.dart';
 import 'package:cabo_karte/features/game/presentation/new_game_screen.dart';
 import 'package:cabo_karte/features/game/presentation/new_round_screen.dart';
-import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:cabo_karte/features/player/presentation/new_player_screen.dart';
 import 'package:cabo_karte/features/player/presentation/player_list_screen.dart';
 import 'package:cabo_karte/widgets/home.dart';

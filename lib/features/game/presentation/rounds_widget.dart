@@ -1,9 +1,7 @@
-import 'package:cabo_karte/config/application.dart';
 import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/features/game/domain/round.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 class RoundsWidget extends StatefulWidget {
@@ -11,10 +9,14 @@ class RoundsWidget extends StatefulWidget {
     Key? key,
     required this.players,
     required this.roundNumber,
+    required this.onChanged,
+    required this.finished,
   }) : super(key: key);
 
   final Set<Player> players;
   final int roundNumber;
+  final bool finished;
+  final ValueChanged<List<Round>> onChanged;
 
   @override
   State<RoundsWidget> createState() => _RoundsWidgetState();
@@ -37,6 +39,11 @@ class _RoundsWidgetState extends State<RoundsWidget> {
       return widget.roundNumber;
     }
     return _rounds.length + 1;
+  }
+
+  bool isFinished() {
+    print('Rounds WIdget finished:' + widget.finished.toString());
+    return widget.finished;
   }
 
   List<Widget> generateRoundList() {
@@ -95,6 +102,7 @@ class _RoundsWidgetState extends State<RoundsWidget> {
       setState(() {
         _rounds.add(result);
       });
+      widget.onChanged(_rounds);
     }
   }
 
@@ -121,11 +129,11 @@ class _RoundsWidgetState extends State<RoundsWidget> {
           const Text('add rounds here'),
           ElevatedButton(
             onPressed: () {
-              // addRound();
-
-              _navigateAndGetCreatedRound(context);
+              if (!isFinished()) {
+                _navigateAndGetCreatedRound(context);
+              }
             },
-            child: const Text('Runde anlegen'),
+            child: Text(!isFinished() ? 'Runde anlegen' : 'RUNDE IST AUS'),
           ),
         ],
       ),

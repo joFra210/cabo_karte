@@ -1,7 +1,4 @@
-import 'package:cabo_karte/features/player/domain/player.dart';
-
 class Round {
-  int? _id;
   int number;
   Map<int, int> playerScores = <int, int>{};
 
@@ -41,6 +38,6 @@ class Round {
 
   @override
   String toString() {
-    return 'Round{id: $_id, number: $number, playerScores: $playerScores}';
+    return 'Round{number: $number, playerScores: $playerScores}';
   }
 }

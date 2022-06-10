@@ -34,6 +34,10 @@ class _RoundFormState extends State<RoundForm> {
     _round.number = widget.roundNumber;
   }
 
+  bool isValidCaboScore(int intVal) {
+    return intVal <= 50 && intVal >= 0;
+  }
+
   List<Widget> getPlayerEntries() {
     final Iterable<ListTile> tiles = widget.players.map(
       (player) {
@@ -44,7 +48,7 @@ class _RoundFormState extends State<RoundForm> {
             validator: (value) {
               try {
                 int intVal = int.parse(value!);
-                return intVal <= 50 && intVal > 0
+                return isValidCaboScore(intVal)
                     ? null
                     : 'Bitte nutze Zahlen zwischen 0 und 50';
               } on Exception {
@@ -54,16 +58,12 @@ class _RoundFormState extends State<RoundForm> {
             onChanged: (value) {
               try {
                 int intVal = int.parse(value);
-                if (intVal <= 50 && intVal > 0) {
+                if (isValidCaboScore(intVal)) {
                   _round.addPlayerScore(player.id!, intVal);
                 }
               } on FormatException {
                 print('do not use letters here');
               }
-
-              print(value);
-
-              print(_round);
             },
           ),
         );
