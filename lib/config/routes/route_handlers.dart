@@ -1,3 +1,4 @@
+import 'package:cabo_karte/features/game/presentation/current_game_screen.dart';
 import 'package:cabo_karte/features/game/presentation/new_game_screen.dart';
 import 'package:cabo_karte/features/player/presentation/new_player_screen.dart';
 import 'package:cabo_karte/features/player/presentation/player_list_screen.dart';
@@ -26,5 +27,11 @@ var playerHandler = Handler(
 var newGameHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
     return const NewGameScreen();
+  },
+);
+
+var currentGameHandler = Handler(
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+    return const CurrentGameScreen();
   },
 );

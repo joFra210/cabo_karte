@@ -5,6 +5,7 @@ import './route_handlers.dart';
 class Routes {
   static String root = "/";
   static String games = "/games";
+  static String currentGame = "/games/current";
   static String newGame = "/games/new-game";
   static String rounds = "/games/:game-id/rounds";
   static String players = "/players";
@@ -22,5 +23,6 @@ class Routes {
     router.define(addPlayer, handler: addPlayerHandler);
     router.define(players, handler: playerHandler);
     router.define(newGame, handler: newGameHandler);
+    router.define(currentGame, handler: currentGameHandler);
   }
 }

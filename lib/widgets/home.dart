@@ -23,6 +23,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool _currentGame = false;
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -57,6 +58,14 @@ class _HomeState extends State<Home> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  Routes.currentGame,
+                );
+              },
+              child: const Text('Spiel fortsetzen'),
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(
@@ -97,7 +106,7 @@ class _HomeState extends State<Home> {
             ),
             ElevatedButton(
               onPressed: () {
-                dbConnection();
+                dbConnectionTest();
               },
               child: const Text('print playerdb test'),
             ),
