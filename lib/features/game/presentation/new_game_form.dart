@@ -62,7 +62,7 @@ class _NewGameFormState extends State<NewGameForm> {
                     },
                     child: const Text('Spiel anlegen'),
                   )
-                : const Text('Nicht genug spieler zum spiel hinzugefügt.'),
+                : const Text('Nicht genug Spieler zum spiel hinzugefügt.'),
           ),
         ],
       ),
