@@ -1,10 +1,8 @@
-import 'package:cabo_karte/config/application.dart';
 import 'package:cabo_karte/config/routes/routes.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-class Root extends StatefulWidget {
-  const Root({Key? key, required this.title}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -18,10 +16,10 @@ class Root extends StatefulWidget {
   final String title;
 
   @override
-  State<Root> createState() => _RootState();
+  State<Home> createState() => _HomeState();
 }
 
-class _RootState extends State<Root> {
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done

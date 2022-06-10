@@ -18,7 +18,7 @@ class Routes {
         throw ErrorDescription("ROUTE WAS NOT FOUND !!!");
       },
     );
-    router.define(root, handler: rootHandler);
+    router.define(root, handler: homeHandler);
     router.define(addPlayer, handler: addPlayerHandler);
   }
 }
