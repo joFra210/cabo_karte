@@ -1,6 +1,7 @@
 import 'package:cabo_karte/features/game/presentation/current_game_screen.dart';
 import 'package:cabo_karte/features/game/presentation/new_game_screen.dart';
 import 'package:cabo_karte/features/game/presentation/new_round_screen.dart';
+import 'package:cabo_karte/features/game/presentation/rounds_screen.dart';
 import 'package:cabo_karte/features/player/presentation/new_player_screen.dart';
 import 'package:cabo_karte/features/player/presentation/player_list_screen.dart';
 import 'package:cabo_karte/widgets/home.dart';
@@ -45,6 +46,18 @@ var newRoundHandler = Handler(
     return NewRoundScreen(
       players: args[0],
       roundNumber: args[1],
+    );
+  },
+);
+
+/// Extract the arguments using [BuildContext.settings.arguments] or [BuildContext.arguments] for short
+var currentRoundsHandler = Handler(
+  handlerFunc: (context, params) {
+    final args = context!.arguments as List<dynamic>;
+
+    return RoundsScreen(
+      game: args[0],
+      onChanged: args[1],
     );
   },
 );

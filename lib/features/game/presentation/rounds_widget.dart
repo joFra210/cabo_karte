@@ -1,5 +1,6 @@
 import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/config/themes/cabo_colors.dart';
+import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/game/domain/round.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +8,11 @@ import 'package:flutter/material.dart';
 class RoundsWidget extends StatefulWidget {
   const RoundsWidget({
     Key? key,
-    required this.players,
-    required this.roundNumber,
+    required this.game,
     required this.onChanged,
-    required this.finished,
   }) : super(key: key);
 
-  final Set<Player> players;
-  final int roundNumber;
-  final bool finished;
+  final Game game;
   final ValueChanged<List<Round>> onChanged;
 
   @override
@@ -23,10 +20,12 @@ class RoundsWidget extends StatefulWidget {
 }
 
 class _RoundsWidgetState extends State<RoundsWidget> {
-  final _rounds = <Round>[];
+  List<Round> get _rounds {
+    return widget.game.rounds;
+  }
 
   Player getPlayerById(int id) {
-    for (Player player in widget.players) {
+    for (Player player in widget.game.players) {
       if (player.id == id) {
         return player;
       }
@@ -35,15 +34,15 @@ class _RoundsWidgetState extends State<RoundsWidget> {
   }
 
   int getRoundNumber() {
-    if (widget.roundNumber > _rounds.length) {
-      return widget.roundNumber;
+    if (widget.game.getNextRoundNumber() > _rounds.length) {
+      return widget.game.getNextRoundNumber();
     }
     return _rounds.length + 1;
   }
 
   bool isFinished() {
-    print('Rounds WIdget finished:' + widget.finished.toString());
-    return widget.finished;
+    print('Rounds WIdget finished:' + widget.game.finished.toString());
+    return widget.game.finished;
   }
 
   List<Widget> generateRoundList() {
@@ -87,7 +86,7 @@ class _RoundsWidgetState extends State<RoundsWidget> {
     final result = await Navigator.of(context).pushNamed(
       Routes.newRound,
       arguments: [
-        widget.players,
+        widget.game.players,
         getRoundNumber(),
       ],
     );
@@ -100,7 +99,7 @@ class _RoundsWidgetState extends State<RoundsWidget> {
 
     if (result is Round) {
       setState(() {
-        _rounds.add(result);
+        widget.game.addRound(result);
       });
       widget.onChanged(_rounds);
     }

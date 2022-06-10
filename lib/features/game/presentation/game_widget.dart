@@ -1,6 +1,6 @@
+import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/game/domain/round.dart';
-import 'package:cabo_karte/features/game/presentation/rounds_widget.dart';
 import 'package:cabo_karte/features/player/presentation/player_list.dart';
 import 'package:flutter/material.dart';
 
@@ -30,9 +30,32 @@ class _GameWidgetState extends State<GameWidget> {
   }
 
   void _handleRoundsChanged(List<Round> rounds) {
-    widget.currentGame.rounds = rounds;
+    setState(() {
+      widget.currentGame.rounds = rounds;
+    });
     print('finished: ' + widget.currentGame.finished.toString());
-    setState(() {});
+  }
+
+  // A method that launches the SelectionScreen and awaits the result from
+  // Navigator.pop.
+  Future<void> _navigateAndGetCreatedRound(BuildContext context) async {
+    final result = await Navigator.of(context).pushNamed(
+      Routes.currentRounds,
+      arguments: [
+        widget.currentGame,
+        _handleRoundsChanged,
+      ],
+    );
+  }
+
+  void _handleRoundsButton() {
+    Navigator.of(context).pushNamed(
+      Routes.currentRounds,
+      arguments: [
+        widget.currentGame,
+        _handleRoundsChanged,
+      ],
+    );
   }
 
   @override
@@ -54,11 +77,9 @@ class _GameWidgetState extends State<GameWidget> {
             activePlayers: widget.currentGame.players,
             onChanged: (player) {},
           ),
-          RoundsWidget(
-            players: widget.currentGame.players,
-            roundNumber: widget.currentGame.getNextRoundNumber(),
-            finished: isFinished(),
-            onChanged: _handleRoundsChanged,
+          ElevatedButton(
+            onPressed: _handleRoundsButton,
+            child: const Text('Rounds'),
           ),
         ],
       ),
