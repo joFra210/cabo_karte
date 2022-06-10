@@ -42,16 +42,14 @@ class PlayerFormState extends State<PlayerForm> {
   }
 
   @override
-  void dispose() async {
+  void dispose() {
     // Clean up the controller when the widget is disposed.
     playerFormController.dispose();
     super.dispose();
-    await playerProvider.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Player>> playerList = getplayerList();
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -60,67 +58,6 @@ class PlayerFormState extends State<PlayerForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              'Bisherige Spieler:',
-              style: TextStyle(
-                fontSize: FontParams.fontSizeTitle,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                color: CaboColors.caboRedLight,
-              ),
-            ),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height / 3,
-              ),
-              child: FutureBuilder<List<Player>>(
-                future: playerList,
-                builder: (context, snap) {
-                  if (snap.hasData) {
-                    final tiles = snap.data!.map(
-                      (player) {
-                        return ListTile(
-                          title: Text(
-                            player.name,
-                          ),
-                          trailing: const Icon(
-                            Icons.delete,
-                            color: Color(0xFFf0acab),
-                            semanticLabel: 'Remove',
-                          ),
-                          onTap: () {
-                            playerProvider.delete(player.id!);
-                          },
-                        );
-                      },
-                    );
-                    final divided = tiles.isNotEmpty
-                        ? ListTile.divideTiles(
-                            context: context,
-                            tiles: tiles,
-                          ).toList()
-                        : <Widget>[];
-
-                    return Flexible(
-                      //padding: const EdgeInsets.all(15),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: divided.length,
-                        itemBuilder: (context, index) {
-                          return divided[index];
-                        },
-                      ),
-                    );
-                  } else if (snap.hasError) {
-                    return AlertDialog(
-                      content: Text(snap.error.toString()),
-                    );
-                  }
-
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
             Title(
               color: CaboColors.caboGreenLight,
               child: const Text(
