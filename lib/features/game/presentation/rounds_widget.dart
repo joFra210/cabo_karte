@@ -176,7 +176,7 @@ class _RoundsWidgetState extends State<RoundsWidget> {
                 _navigateAndGetCreatedRound(context);
               }
             },
-            child: Text(!isFinished() ? 'Runde anlegen' : 'RUNDE IST AUS'),
+            child: Text(!isFinished() ? 'Runde anlegen' : 'SPIEL IST AUS'),
           ),
         ],
       ),
