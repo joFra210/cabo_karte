@@ -44,39 +44,6 @@ class _RoundsWidgetState extends State<RoundsWidget> {
     return widget.game.finished;
   }
 
-  List<Widget> generateRoundList() {
-    List<ListTile> roundList = <ListTile>[];
-
-    for (Round round in _rounds) {
-      MapEntry<int, int>? winnerScore = round.winnerScore;
-
-      bool isKamikazeScore = winnerScore?.value == 50;
-
-      roundList.add(
-        ListTile(
-          leading: Text(
-            round.number.toString(),
-          ),
-          title: Text(
-            winnerScore?.key.toString() ?? 'Null',
-          ),
-          trailing: Text(
-            isKamikazeScore
-                ? 'KAMIKAZE'
-                : winnerScore?.value.toString() ?? 'Null',
-          ),
-        ),
-      );
-    }
-
-    final divided = ListTile.divideTiles(
-      context: context,
-      tiles: roundList,
-    ).toList();
-
-    return divided;
-  }
-
   List<DataRow> generateRoundDataRowList() {
     List<DataRow> roundList = <DataRow>[];
 
@@ -92,11 +59,16 @@ class _RoundsWidgetState extends State<RoundsWidget> {
       for (Player player in widget.game.players) {
         int score = round.playerScores[player.id]!;
         bool isKamikazeScore = score == 50;
+        bool isWinnerScore = player.id == round.winnerId;
 
         cellList.add(
           DataCell(
             Text(
               isKamikazeScore ? 'KAMIKAZE' : score.toString(),
+              style: TextStyle(
+                color: isWinnerScore ? CaboColors.caboGreenLight : null,
+                fontWeight: isWinnerScore ? FontWeight.bold : null,
+              ),
             ),
           ),
         );

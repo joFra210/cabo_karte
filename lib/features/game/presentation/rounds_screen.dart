@@ -1,7 +1,6 @@
 import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/game/domain/round.dart';
 import 'package:cabo_karte/features/game/presentation/rounds_widget.dart';
-import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:flutter/material.dart';
 
 class RoundsScreen extends StatefulWidget {
