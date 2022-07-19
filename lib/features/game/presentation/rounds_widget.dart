@@ -77,6 +77,9 @@ class _RoundsWidgetState extends State<RoundsWidget> {
       roundList.add(
         DataRow(
           cells: cellList,
+          onLongPress: () {
+            print('insert code to edit round');
+          },
         ),
       );
     }

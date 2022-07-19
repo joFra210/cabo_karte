@@ -31,6 +31,21 @@ class Game {
     rounds.add(round);
   }
 
+  Round getRoundByNumber(int number) {
+    for (Round round in rounds) {
+      if (round.number == number) {
+        return round;
+      }
+    }
+    throw Exception('no matching round for number: $number');
+  }
+
+  void replaceRound(Round round) {
+    Round existingRound = getRoundByNumber(round.number);
+    rounds.remove(existingRound);
+    rounds.add(round);
+  }
+
   int getNextRoundNumber() {
     return rounds.length + 1;
   }
