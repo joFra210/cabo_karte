@@ -141,7 +141,6 @@ class _RoundsWidgetState extends State<RoundsWidget> {
               rows: generateRoundDataRowList(),
             ),
           ),
-          const Text('add rounds here'),
           ElevatedButton(
             onPressed: () {
               if (!isFinished()) {
