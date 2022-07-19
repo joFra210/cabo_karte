@@ -2,6 +2,8 @@ import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/config/themes/themes_config.dart';
 import 'package:cabo_karte/features/app/data/db_connection_test.dart';
+import 'package:cabo_karte/features/game/data/game_provider.dart';
+import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -23,6 +25,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Future<Game> get currentGame async {
+    GameProvider provider = await GameProvider().gameProvider;
+    return provider.getCurrentGame();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -57,13 +64,22 @@ class _HomeState extends State<Home> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  Routes.currentGame,
-                );
+            FutureBuilder(
+              future: currentGame,
+              builder: (context, AsyncSnapshot<Game> snapshot) {
+                if (snapshot.hasData) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        Routes.currentGame,
+                      );
+                    },
+                    child: const Text('Spiel fortsetzen'),
+                  );
+                } else {
+                  return const Text('');
+                }
               },
-              child: const Text('Spiel fortsetzen'),
             ),
             ElevatedButton(
               onPressed: () {
