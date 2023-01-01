@@ -144,13 +144,18 @@ class _RoundsWidgetState extends State<RoundsWidget> {
               rows: generateRoundDataRowList(),
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              if (!isFinished()) {
-                _navigateAndGetCreatedRound(context);
-              }
-            },
-            child: Text(!isFinished() ? 'Runde anlegen' : 'SPIEL IST AUS'),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (!isFinished()) {
+                    _navigateAndGetCreatedRound(context);
+                  }
+                },
+                child: Text(!isFinished() ? 'Runde anlegen' : 'SPIEL IST AUS'),
+              ),
+            ],
           ),
         ],
       ),

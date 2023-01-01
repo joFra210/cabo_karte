@@ -74,6 +74,14 @@ class GameProvider {
     }
   }
 
+  /// Retrieves the current [Game] object from the database.
+  ///
+  /// The current [Game] is defined as the last [Game] object stored in the database.
+  /// The [Game] object is populated with its associated [Player] objects using data
+  /// from the `player_join` table.
+  ///
+  /// Returns the current [Game] object if it exists, or throws an [Exception] if no
+  /// [Game] object is available.
   Future<Game> getCurrentGame() async {
     final List<Map<String, dynamic>> gameMaps = await _db.query(tableName);
 
@@ -81,20 +89,26 @@ class GameProvider {
       Map<String, dynamic> currentGameMap =
           Map<String, dynamic>.from(gameMaps.last);
       if (currentGameMap.isNotEmpty) {
-        int gameId = currentGameMap['id'];
+        Game currentGame = Game.fromMap(currentGameMap);
 
-        final List<Map<String, dynamic>> playerGamesJoinMaps = await _db.query(
-            playerJoinTableName,
-            where: 'game_id = ?',
-            whereArgs: [gameId]);
+        // get players for current game
+        List<Map<dynamic, dynamic>> playersGamesMaps = await _db.query(
+          playerJoinTableName,
+          where: 'game_id = ?',
+          whereArgs: [currentGame.id],
+        );
 
-        currentGameMap['players'] =
-            await playerSetFromJoinMaps(playerGamesJoinMaps);
+        // generate Set of Player objects
+        Set<Player> playerSet = await playerSetFromJoinMaps(playersGamesMaps);
 
-        return Game.fromMap(currentGameMap);
+        // add players to currentGame
+        currentGame.players = playerSet;
+
+        return currentGame;
       }
     }
-    throw Exception('No current game available...');
+
+    throw Exception('No Game available');
   }
 
   /// Iterate over Games/Players JoinTable entries and generate Set of

@@ -179,7 +179,7 @@ class Game {
     Game game = Game(
       id: map['id'],
       date: DateTime.parse(map['date']),
-      players: map['players'], // transform int value to bool
+      players: map['players'] ?? <Player>{}, // use empty set if null
     );
     if (map['rounds'] != null) {
       List<dynamic> roundsListDynamic = jsonDecode(

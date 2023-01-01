@@ -21,9 +21,6 @@ class _RoundsScreenState extends State<RoundsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Runden in diesem Spiel:'),
-      ),
       body: RoundsWidget(
         game: widget.game,
         onChanged: widget.onChanged,

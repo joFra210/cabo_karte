@@ -40,7 +40,7 @@ class _PlayerListGameWidgetState extends State<PlayerListGameWidget> {
         Container(
           color: CaboColors.caboGreenDark,
           child: const ListTile(
-            title: Text('Name'),
+            title: Text('Spieler'),
             trailing: Text('Punkte'),
           ),
         ),
