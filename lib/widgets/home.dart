@@ -82,22 +82,6 @@ class _HomeState extends State<Home> {
               },
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  Routes.addPlayer,
-                );
-              },
-              child: const Text('Neue Spieler anlegen'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  Routes.players,
-                );
-              },
-              child: const Text('Spielerliste anzeigen'),
-            ),
-            ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
                   CaboColors.caboRed,
@@ -118,6 +102,22 @@ class _HomeState extends State<Home> {
                 );
               },
               child: const Text('Neues Spiel!'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  Routes.addPlayer,
+                );
+              },
+              child: const Text('Neue Spieler anlegen'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  Routes.players,
+                );
+              },
+              child: const Text('Spielerliste anzeigen'),
             ),
             ElevatedButton(
               onPressed: () {
