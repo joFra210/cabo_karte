@@ -1,3 +1,4 @@
+import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/config/themes/themes_config.dart';
 import 'package:cabo_karte/features/player/data/player_provider.dart';
@@ -92,20 +93,41 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                         );
                       },
                     );
-                    final divided = tiles.isNotEmpty
-                        ? ListTile.divideTiles(
-                            context: context,
-                            tiles: tiles,
-                          ).toList()
-                        : <Widget>[];
+                    if (tiles.isNotEmpty) {
+                      final divided = tiles.isNotEmpty
+                          ? ListTile.divideTiles(
+                              context: context,
+                              tiles: tiles,
+                            ).toList()
+                          : <Widget>[];
 
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: divided.length,
-                      itemBuilder: (context, index) {
-                        return divided[index];
-                      },
-                    );
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: divided.length,
+                        itemBuilder: (context, index) {
+                          return divided[index];
+                        },
+                      );
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 50),
+                        child: Flex(
+                          direction: Axis.vertical,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('Noch keine Spieler angelegt:'),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(
+                                  Routes.addPlayer,
+                                );
+                              },
+                              child: const Text('Neue Spieler anlegen'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   } else if (snap.hasError) {
                     return AlertDialog(
                       content: Text(snap.error.toString()),

@@ -57,6 +57,23 @@ class GameProvider {
     print('CURRENT GAME: $currentGame');
   }
 
+  Future<bool> gameAvailable() async {
+    try {
+      final List<Map<String, dynamic>> gameMaps = await _db.query(tableName);
+
+      if (gameMaps.isNotEmpty) {
+        Map<String, dynamic> currentGameMap =
+            Map<String, dynamic>.from(gameMaps.last);
+        if (currentGameMap.isNotEmpty) {
+          return true;
+        }
+      }
+      return false;
+    } catch (exception) {
+      return false;
+    }
+  }
+
   Future<Game> getCurrentGame() async {
     final List<Map<String, dynamic>> gameMaps = await _db.query(tableName);
 
@@ -77,7 +94,6 @@ class GameProvider {
         return Game.fromMap(currentGameMap);
       }
     }
-
     throw Exception('No current game available...');
   }
 

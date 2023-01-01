@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FutureBuilder(
+            FutureBuilder<Game>(
               future: currentGame,
               builder: (context, AsyncSnapshot<Game> snapshot) {
                 if (snapshot.hasData) {
@@ -77,7 +77,7 @@ class _HomeState extends State<Home> {
                     child: const Text('Spiel fortsetzen'),
                   );
                 } else {
-                  return const Text('');
+                  return const SizedBox(height: 0);
                 }
               },
             ),
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 dbConnectionTest();
               },
-              child: const Text('print playerdb test'),
+              child: const Text('Datenbankverbindung testen'),
             ),
           ],
         ),

@@ -51,44 +51,41 @@ class PlayerFormState extends State<PlayerForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Title(
-              color: CaboColors.caboGreenLight,
-              child: const Text(
-                'Neuer Spieler',
-                style: TextStyle(
-                  fontSize: FontParams.fontSizeHeader,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  color: CaboColors.caboGreenLight,
-                ),
+            const Text(
+              'Neuer Spieler',
+              style: TextStyle(
+                fontSize: FontParams.fontSizeHeader,
+                fontWeight: FontWeight.bold,
+                color: CaboColors.caboGreenLight,
               ),
             ),
+            const SizedBox(height: 10),
             const Text(
               'Spieler anlegen',
               style: TextStyle(
                 fontSize: FontParams.fontSizeTitle,
-                fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold,
                 color: CaboColors.caboRedLight,
               ),
             ),
-            // Add TextFormFields and ElevatedButton here.
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Name'),
-                TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  controller: playerFormController,
-                ),
-              ],
+            const SizedBox(height: 20),
+            const Text(
+              'Name',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
             ),
+            TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              controller: playerFormController,
+            ),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
@@ -133,12 +130,8 @@ class PlayerFormState extends State<PlayerForm> {
                   );
                 }
               },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.check),
-                  Text('Hinzufügen'),
-                ],
+              child: const Text(
+                'Spieler anlegen',
               ),
             ),
           ],
