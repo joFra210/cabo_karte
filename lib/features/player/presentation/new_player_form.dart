@@ -31,6 +31,8 @@ class PlayerFormState extends State<PlayerForm> {
   Future<Player> insertNewPlayer(Player newPlayer) async {
     PlayerProvider playerProvider = await PlayerProvider().playerProvider;
     Player player = await playerProvider.insertPlayer(newPlayer);
+    // Clear the text field
+    playerFormController.clear();
     return player;
   }
 
@@ -52,20 +54,11 @@ class PlayerFormState extends State<PlayerForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const Text(
-              'Neuer Spieler',
+              'Neuen Spieler anlegen',
               style: TextStyle(
                 fontSize: FontParams.fontSizeHeader,
                 fontWeight: FontWeight.bold,
                 color: CaboColors.caboGreenLight,
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Spieler anlegen',
-              style: TextStyle(
-                fontSize: FontParams.fontSizeTitle,
-                fontWeight: FontWeight.bold,
-                color: CaboColors.caboRedLight,
               ),
             ),
             const SizedBox(height: 20),
@@ -73,7 +66,7 @@ class PlayerFormState extends State<PlayerForm> {
               'Name',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black54,
+                color: Colors.white,
               ),
             ),
             TextFormField(

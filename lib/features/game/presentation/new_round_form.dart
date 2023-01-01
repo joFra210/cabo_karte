@@ -39,6 +39,14 @@ class _RoundFormState extends State<RoundForm> {
     return intVal <= 50 && intVal >= 0;
   }
 
+  /// Returns a list of [ListTile] widgets representing the [Player] objects in
+  /// [widget.players].
+  ///
+  /// Each [ListTile] widget contains a [Radio] button for selecting the [Player]
+  /// object as the cabo caller, and a [TextFormField] for entering the player's score.
+  /// The [TextFormField] has a validator that ensures the entered score is a number
+  /// between 0 and 50, and an `onChanged` callback that updates the score for the
+  /// corresponding [Player] in the [_round] object.
   List<Widget> getPlayerEntries() {
     final Iterable<ListTile> tiles = widget.players.map(
       (player) {
@@ -118,6 +126,17 @@ class _RoundFormState extends State<RoundForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
+                // check if a cabo caller was selected
+                if (_caboPlayer == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: CaboColors.caboRedLight,
+                      content: Text('Bitte wähle aus, wer Cabo gesagt hat 🤔'),
+                    ),
+                  );
+                  return;
+                }
+
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   // If the form is valid, display a snackbar. In the real world,
