@@ -1,3 +1,4 @@
+import 'package:cabo_karte/Utils/date_formatter.dart';
 import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/config/themes/themes_config.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
@@ -34,14 +35,6 @@ class _GameWidgetState extends State<GameWidget>
   void dispose() {
     _tabController.dispose();
     super.dispose();
-  }
-
-  String getFormattedDate(DateTime date) {
-    return date.day.toString() +
-        '. ' +
-        date.month.toString() +
-        '. ' +
-        date.year.toString();
   }
 
   bool isFinished() {
@@ -116,7 +109,7 @@ class _GameWidgetState extends State<GameWidget>
                         ),
                         Text(
                           'Datum: ' +
-                              getFormattedDate(
+                              Dateformatter.getFormattedDate(
                                 widget.currentGame.date.toLocal(),
                               ),
                         ),

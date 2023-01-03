@@ -51,12 +51,6 @@ class GameProvider {
     return game;
   }
 
-  Future<void> printCurrentGame() async {
-    Game currentGame = await getCurrentGame();
-
-    print('CURRENT GAME: $currentGame');
-  }
-
   Future<bool> gameAvailable() async {
     try {
       final List<Map<String, dynamic>> gameMaps = await _db.query(tableName);
@@ -106,6 +100,48 @@ class GameProvider {
 
         return currentGame;
       }
+    }
+
+    throw Exception('No Game available');
+  }
+
+  /// Retrieves all [Game] objects from the database.
+  /// The [Game] objects are populated with their associated [Player] objects using data
+  /// from the `player_join` table.
+  ///
+  /// Returns a [List] of [Game] objects.
+  ///
+  /// If no [Game] objects are available, an empty [List] is returned.
+  /// If an error occurs, an [Exception] is thrown.
+  Future<List<Game>> getAllGames() async {
+    final List<Map<String, dynamic>> gameMaps = await _db.query(tableName);
+
+    if (gameMaps.isNotEmpty) {
+      List<Game> games = [];
+
+      for (Map<String, dynamic> gameMap in gameMaps) {
+        Game game = Game.fromMap(gameMap);
+
+        // get players for current game
+        List<Map<dynamic, dynamic>> playersGamesMaps = await _db.query(
+          playerJoinTableName,
+          where: 'game_id = ?',
+          whereArgs: [game.id],
+        );
+
+        // generate Set of Player objects
+        Set<Player> playerSet = await playerSetFromJoinMaps(playersGamesMaps);
+
+        // add players to currentGame
+        game.players = playerSet;
+
+        games.add(game);
+      }
+
+      // sort games from newest date to oldest date
+      games.sort((a, b) => b.date.compareTo(a.date));
+
+      return games;
     }
 
     throw Exception('No Game available');

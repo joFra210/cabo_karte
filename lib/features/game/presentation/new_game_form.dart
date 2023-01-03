@@ -59,7 +59,6 @@ class _NewGameFormState extends State<NewGameForm> {
                           await GameProvider().gameProvider;
                       await _persistGame();
 
-                      await gameProvider.printCurrentGame();
                       Navigator.of(context).popAndPushNamed(
                         Routes.currentGame,
                       );

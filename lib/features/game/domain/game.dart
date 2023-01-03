@@ -8,7 +8,6 @@ class Game {
   DateTime date;
   Set<Player> players;
   List<Round> _rounds = <Round>[];
-  Map<int, int> _playerScores = <int, int>{};
   String? _leaderName;
   bool _finished = false;
 
@@ -20,7 +19,6 @@ class Game {
 
   set rounds(List<Round> newRounds) {
     _rounds = newRounds;
-    _playerScores = playerScores;
   }
 
   List<Round> get rounds {
