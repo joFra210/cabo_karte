@@ -1,4 +1,5 @@
 import 'package:cabo_karte/config/routes/routes.dart';
+import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/features/game/data/game_provider.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
@@ -53,19 +54,21 @@ class _NewGameFormState extends State<NewGameForm> {
           Padding(
             padding: const EdgeInsets.only(top: 50),
             child: enoughPlayers
-                ? ElevatedButton(
+                ? FloatingActionButton.extended(
                     onPressed: () async {
-                      GameProvider gameProvider =
-                          await GameProvider().gameProvider;
                       await _persistGame();
 
                       Navigator.of(context).popAndPushNamed(
-                        Routes.currentGame,
+                        Routes.gameDetail,
+                        arguments: _newGame,
                       );
                     },
-                    child: const Text('Spiel anlegen'),
+                    backgroundColor: CaboColors.caboGreen,
+                    foregroundColor: CaboColors.white,
+                    icon: const Icon(Icons.check),
+                    label: const Text('Spiel anlegen'),
                   )
-                : const Text('Nicht genug Spieler zum Spiel hinzugefügt.'),
+                : const Text('Bitte wähle mindestens 2 Spieler aus ✌️'),
           ),
         ],
       ),

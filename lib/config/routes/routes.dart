@@ -5,7 +5,6 @@ import './route_handlers.dart';
 class Routes {
   static String root = "/";
   static String games = "/games";
-  static String currentGame = "/games/current";
   static String gameDetail = "/games/detail";
   static String newRound = "/games/current/rounds/new-round";
   static String currentRounds = "/games/current/rounds";
@@ -17,8 +16,6 @@ class Routes {
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-        // print('ROUTE WAS NOT FOUND !!!');
-        // return;
         throw ErrorDescription("ROUTE WAS NOT FOUND !!!");
       },
     );
@@ -26,7 +23,6 @@ class Routes {
     router.define(addPlayer, handler: addPlayerHandler);
     router.define(players, handler: playerHandler);
     router.define(newGame, handler: newGameHandler);
-    router.define(currentGame, handler: currentGameHandler);
     router.define(gameDetail, handler: gameDetailHandler);
     router.define(newRound, handler: newRoundHandler);
     router.define(currentRounds, handler: currentRoundsHandler);

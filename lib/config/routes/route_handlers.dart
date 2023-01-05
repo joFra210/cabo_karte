@@ -1,10 +1,10 @@
-import 'package:cabo_karte/features/game/presentation/current_game_screen.dart';
+import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/game/presentation/game_detail_screen.dart';
 import 'package:cabo_karte/features/game/presentation/new_game_screen.dart';
 import 'package:cabo_karte/features/game/presentation/new_round_screen.dart';
 import 'package:cabo_karte/features/game/presentation/rounds_screen.dart';
 import 'package:cabo_karte/features/player/presentation/new_player_screen.dart';
-import 'package:cabo_karte/features/player/presentation/player_list_screen.dart';
+import 'package:cabo_karte/features/player/presentation/player_list_all.dart';
 import 'package:cabo_karte/widgets/home.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -23,19 +23,13 @@ var addPlayerHandler = Handler(
 
 var playerHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-    return const PlayerListScreen();
+    return const PlayerListAll();
   },
 );
 
 var newGameHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
     return const NewGameScreen();
-  },
-);
-
-var currentGameHandler = Handler(
-  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-    return const CurrentGameScreen();
   },
 );
 
@@ -66,10 +60,10 @@ var currentRoundsHandler = Handler(
 /// Extract the arguments using [BuildContext.settings.arguments] or [BuildContext.arguments] for short
 var gameDetailHandler = Handler(
   handlerFunc: (context, params) {
-    final args = context!.arguments as List<dynamic>;
+    final Game game = context!.arguments as Game;
 
     return GameDetailScreen(
-      game: args[0],
+      game: game,
     );
   },
 );

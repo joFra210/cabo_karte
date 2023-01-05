@@ -84,11 +84,4 @@ class DatabaseProvider {
     );
     return db;
   }
-
-  void printTables() async {
-    Database db = await database;
-
-    print(await db.rawQuery('PRAGMA foreign_keys'));
-    print(await db.rawQuery('PRAGMA table_list'));
-  }
 }

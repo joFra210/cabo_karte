@@ -7,7 +7,7 @@ class Game {
   int? id;
   DateTime date;
   Set<Player> players;
-  List<Round> _rounds = <Round>[];
+  List<Round> rounds = <Round>[];
   String? _leaderName;
   bool _finished = false;
 
@@ -16,14 +16,6 @@ class Game {
     required this.players,
     this.id,
   });
-
-  set rounds(List<Round> newRounds) {
-    _rounds = newRounds;
-  }
-
-  List<Round> get rounds {
-    return _rounds;
-  }
 
   void addRound(Round round) {
     rounds.add(round);
@@ -61,21 +53,16 @@ class Game {
       }
       for (Player player in players) {
         if (isKamikaze) {
-          if (round.playerScores[player.id!] == 50) {
-            print('player with id: ' +
-                player.id.toString() +
-                ' hat kamikaze in runde: ' +
-                round.number.toString());
-          } else {
+          if (round.playerScores[player.id!] != 50) {
             // create entry with score for player if not exists and add points,
             // else add points to existing entry, add 50 cause Kamikaze
             playerScores = addToPlayerScore(playerScores, player.id!, 50);
           }
         } else if (player.id == round.winnerId) {
-          print('player with id: ' +
-              player.id.toString() +
-              ' hat gewonnen in runde: ' +
-              round.number.toString());
+          // print('player with id: ' +
+          //     player.id.toString() +
+          //     ' hat gewonnen in runde: ' +
+          //     round.number.toString());
         } else {
           // add points to existing entry if it exists,
           // else create entry with score for player
@@ -89,11 +76,11 @@ class Game {
         // add 5 penalty points
         if (player.id == round.caboCallerId &&
             !round.hasIdLowestScore(player.id!)) {
-          print('player ' +
-              player.id.toString() +
-              ' said cabo incorrectly in runde ' +
-              round.number.toString() +
-              ', 5 strafpunkte');
+          // print('player ' +
+          //     player.id.toString() +
+          //     ' said cabo incorrectly in runde ' +
+          //     round.number.toString() +
+          //     ', 5 strafpunkte');
           playerScores = addToPlayerScore(playerScores, player.id!, 5);
         }
 
@@ -148,16 +135,17 @@ class Game {
   bool get finished {
     for (MapEntry<int, int> scoreEntry in playerScores.entries) {
       if (scoreEntry.value > 100) {
-        int playerId = scoreEntry.key;
-        int loserScore = scoreEntry.value;
-        int roundLength = rounds.length;
+        // int playerId = scoreEntry.key;
+        // int loserScore = scoreEntry.value;
+        // int roundLength = rounds.length;
 
-        Player loser = players.firstWhere((element) => element.id == playerId);
-        String playerName = loser.name;
+        // Player loser = players.firstWhere((element) => element.id == playerId);
+        // String playerName = loser.name;
 
         _finished = true;
-        print(
-            'player: $playerName has $loserScore points after $roundLength rounds!');
+
+        // print(
+        //     'player: $playerName has $loserScore points after $roundLength rounds!');
         return _finished;
       }
     }
@@ -187,7 +175,7 @@ class Game {
           .map((e) => Round.fromJson(e as Map<String, dynamic>))
           .toList();
 
-      print('Game from Map Roundslist: ' + roundsList.toString());
+      // print('Game from Map Roundslist: ' + roundsList.toString());
 
       game.rounds = roundsList;
     }

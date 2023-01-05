@@ -71,7 +71,7 @@ class _RoundFormState extends State<RoundForm> {
                   _round.addPlayerScore(player.id!, intVal);
                 }
               } on FormatException {
-                print('do not use letters here');
+                // ignore
               }
             },
           ),
@@ -112,8 +112,7 @@ class _RoundFormState extends State<RoundForm> {
               trailing: Text('Name'),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 2,
+          Expanded(
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: getPlayerEntries().length,
@@ -124,7 +123,9 @@ class _RoundFormState extends State<RoundForm> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
+            child: FloatingActionButton.extended(
+              backgroundColor: CaboColors.caboGreen,
+              foregroundColor: CaboColors.white,
               onPressed: () {
                 // check if a cabo caller was selected
                 if (_caboPlayer == null) {
@@ -139,15 +140,11 @@ class _RoundFormState extends State<RoundForm> {
 
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-
-                  print(_round);
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
+                  // If the form is valid, display a Snackbar.
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Ok cool 😎')),
                   );
+                  // close the dialog and return the round object
                   Navigator.of(context).pop(_round);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -157,7 +154,8 @@ class _RoundFormState extends State<RoundForm> {
                   );
                 }
               },
-              child: const Text('Submit'),
+              icon: const Icon(Icons.check),
+              label: const Text('Runde eintragen'),
             ),
           ),
         ],

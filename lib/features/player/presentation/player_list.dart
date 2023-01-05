@@ -124,9 +124,11 @@ class _PlayerListWidgetState extends State<PlayerListWidget> {
                   const Text('Noch keine Spieler angelegt:'),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        Routes.addPlayer,
-                      );
+                      Navigator.of(context)
+                          .pushNamed(
+                            Routes.addPlayer,
+                          )
+                          .then((value) => setState(() {}));
                     },
                     child: const Text('Neue Spieler anlegen'),
                   ),

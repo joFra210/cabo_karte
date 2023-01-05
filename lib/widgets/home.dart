@@ -3,7 +3,7 @@ import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/config/themes/themes_config.dart';
 import 'package:cabo_karte/features/game/data/game_provider.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
-import 'package:flutter/gestures.dart';
+import 'package:cabo_karte/features/player/presentation/player_list_all.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/date_formatter.dart';
@@ -110,98 +110,138 @@ class _HomeState extends State<Home> {
                   ),
                   body: TabBarView(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FutureBuilder<Game>(
-                            future: currentGame,
-                            builder: (context, AsyncSnapshot<Game> snapshot) {
-                              if (snapshot.hasData) {
-                                return ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pushNamed(
-                                      Routes.currentGame,
-                                    );
-                                  },
-                                  child: const Text('Spiel fortsetzen'),
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Willkommen bei deiner Cabo\u{00A0}Punkte\u{00A0}Karte',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: FontParams.fontSizeHeader,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              'Was möchtest du tun?',
+                              style: TextStyle(
+                                fontSize: FontParams.fontSizeTitle,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 50),
+                            FutureBuilder<Game>(
+                              future: currentGame,
+                              builder: (context, AsyncSnapshot<Game> snapshot) {
+                                if (snapshot.hasData) {
+                                  return ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: CaboColors.caboGreen,
+                                      foregroundColor: CaboColors.white,
+                                      padding: const EdgeInsets.only(
+                                          top: 10,
+                                          bottom: 10,
+                                          left: 20,
+                                          right: 20),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                      ),
+                                      textStyle: const TextStyle(
+                                        fontSize: FontParams.fontSizeSubtitle,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                        Routes.gameDetail,
+                                        arguments: snapshot.data!,
+                                      );
+                                    },
+                                    icon:
+                                        const Icon(Icons.play_arrow, size: 25),
+                                    label: const Text('Spiel fortsetzen'),
+                                  );
+                                } else {
+                                  return const SizedBox(height: 0);
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            FloatingActionButton.extended(
+                              backgroundColor: CaboColors.caboRed,
+                              foregroundColor: CaboColors.white,
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(
+                                  Routes.newGame,
                                 );
-                              } else {
-                                return const SizedBox(height: 0);
-                              }
-                            },
-                          ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                CaboColors.caboRed,
-                              ),
-                              foregroundColor: MaterialStateProperty.all(
-                                CaboColors.white,
-                              ),
-                              textStyle: MaterialStateProperty.all(
-                                const TextStyle(
-                                  fontSize: FontParams.fontSizeHeader,
+                              },
+                              icon: const Icon(Icons.add, size: 30),
+                              label: const Text(
+                                'Neues Spiel',
+                                style: TextStyle(
+                                  fontSize: FontParams.fontSizeSubtitle,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                Routes.newGame,
-                              );
-                            },
-                            child: const Text('Neues Spiel!'),
-                          ),
-                        ],
-                      ),
-                      // a scrollable list view of all games in the database
-                      Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _allGames.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(
-                                'Spiel ' + _allGames[index].id.toString(),
-                                style: const TextStyle(
-                                  fontSize: FontParams.fontSizeTitle,
-                                  fontWeight: FontWeight.bold,
-                                  height: 3,
-                                ),
-                              ),
-                              subtitle: Text('Datum: ' +
-                                  Dateformatter.getFormattedDate(
-                                      _allGames[index].date)),
-                              // game screen on tap
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  Routes.gameDetail,
-                                  arguments: [_allGames[index]],
-                                );
-                              },
-                            );
-                          },
+                          ],
                         ),
                       ),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton(
+                          Expanded(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _allGames.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(
+                                    'Spiel ' + _allGames[index].id.toString(),
+                                    style: const TextStyle(
+                                      fontSize: FontParams.fontSizeTitle,
+                                      fontWeight: FontWeight.bold,
+                                      height: 3,
+                                    ),
+                                  ),
+                                  subtitle: Text('Datum: ' +
+                                      Dateformatter.getFormattedDate(
+                                          _allGames[index].date)),
+                                  // game screen on tap
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                      Routes.gameDetail,
+                                      arguments: _allGames[index],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Expanded(
+                            child: PlayerListAll(),
+                          ),
+                          const SizedBox(height: 40),
+                          FloatingActionButton.extended(
+                            backgroundColor: CaboColors.caboGreen,
+                            foregroundColor: CaboColors.white,
                             onPressed: () {
                               Navigator.of(context).pushNamed(
                                 Routes.addPlayer,
                               );
                             },
-                            child: const Text('Neue Spieler anlegen'),
+                            icon: const Icon(Icons.add),
+                            label: const Text('Spieler:in anlegen'),
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                Routes.players,
-                              );
-                            },
-                            child: const Text('Spielerliste anzeigen'),
-                          ),
+                          const SizedBox(height: 40),
                         ],
                       ),
                     ],

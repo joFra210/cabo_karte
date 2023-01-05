@@ -1,5 +1,4 @@
 import 'package:cabo_karte/config/themes/cabo_colors.dart';
-import 'package:cabo_karte/config/themes/themes_config.dart';
 import 'package:cabo_karte/features/player/data/player_provider.dart';
 import 'package:cabo_karte/features/player/domain/player.dart';
 import 'package:flutter/material.dart';
@@ -53,14 +52,6 @@ class PlayerFormState extends State<PlayerForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              'Neuen Spieler anlegen',
-              style: TextStyle(
-                fontSize: FontParams.fontSizeHeader,
-                fontWeight: FontWeight.bold,
-                color: CaboColors.caboGreenLight,
-              ),
-            ),
             const SizedBox(height: 20),
             const Text(
               'Name',
@@ -72,21 +63,24 @@ class PlayerFormState extends State<PlayerForm> {
             TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
+                  return 'Bitte gib einen Namen ein';
                 }
                 return null;
               },
               controller: playerFormController,
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
+            FloatingActionButton.extended(
+              foregroundColor: CaboColors.white,
+              backgroundColor: CaboColors.caboGreen,
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
+                    const SnackBar(
+                        content: Text('Spieler:in wird angelegt... 😇')),
                   );
                   Player newPlayer = Player(name: playerFormController.text);
                   Future<Player> futurePlayer = insertNewPlayer(newPlayer);
@@ -98,7 +92,7 @@ class PlayerFormState extends State<PlayerForm> {
                         builder: (context, snap) {
                           String text = '';
                           if (snap.hasData) {
-                            text = 'Neuer Spieler "' +
+                            text = 'Neue Spieler:in "' +
                                 snap.data!.name +
                                 '" wurde angelegt.';
                             return AlertDialog(
@@ -123,8 +117,9 @@ class PlayerFormState extends State<PlayerForm> {
                   );
                 }
               },
-              child: const Text(
-                'Spieler anlegen',
+              icon: const Icon(Icons.check),
+              label: const Text(
+                'Anlegen',
               ),
             ),
           ],

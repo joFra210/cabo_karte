@@ -1,4 +1,3 @@
-import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/game/domain/round.dart';
@@ -78,40 +77,13 @@ class _RoundsWidgetState extends State<RoundsWidget> {
         DataRow(
           cells: cellList,
           onLongPress: () {
-            print('insert code to edit round');
+            // print('insert code to edit round');
           },
         ),
       );
     }
 
     return roundList;
-  }
-
-  // A method that launches the SelectionScreen and awaits the result from
-  // Navigator.pop.
-  Future<void> _navigateAndGetCreatedRound(BuildContext context) async {
-    // Navigator.push returns a Future that completes after calling
-    // Navigator.pop on the Selection Screen.
-    final result = await Navigator.of(context).pushNamed(
-      Routes.newRound,
-      arguments: [
-        widget.game.players,
-        getRoundNumber(),
-      ],
-    );
-
-    // After the Selection Screen returns a result, hide any previous snackbars
-    // and show the new result.
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('Round came back as: $result')));
-
-    if (result is Round) {
-      setState(() {
-        widget.game.addRound(result);
-      });
-      widget.onChanged(_rounds);
-    }
   }
 
   List<DataColumn> get tableCols {
@@ -143,19 +115,6 @@ class _RoundsWidgetState extends State<RoundsWidget> {
               columns: tableCols,
               rows: generateRoundDataRowList(),
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  if (!isFinished()) {
-                    _navigateAndGetCreatedRound(context);
-                  }
-                },
-                child: Text(!isFinished() ? 'Runde anlegen' : 'SPIEL IST AUS'),
-              ),
-            ],
           ),
         ],
       ),

@@ -1,4 +1,3 @@
-import 'package:cabo_karte/config/routes/routes.dart';
 import 'package:cabo_karte/config/themes/cabo_colors.dart';
 import 'package:cabo_karte/features/game/domain/game.dart';
 import 'package:cabo_karte/features/player/data/player_provider.dart';
@@ -38,7 +37,7 @@ class _PlayerListGameWidgetState extends State<PlayerListGameWidget> {
     return Column(
       children: [
         Container(
-          color: CaboColors.caboGreenDark,
+          color: CaboColors.caboGreen,
           child: const ListTile(
             title: Text('Spieler'),
             trailing: Text('Punkte'),
@@ -80,16 +79,8 @@ class _PlayerListGameWidgetState extends State<PlayerListGameWidget> {
                 child: Flex(
                   direction: Axis.vertical,
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('Noch keine Spieler angelegt:'),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          Routes.addPlayer,
-                        );
-                      },
-                      child: const Text('Neue Spieler anlegen'),
-                    ),
+                  children: const [
+                    Text('Keine Spieler mehr für dieses Spiel vorhanden 😕'),
                   ],
                 ),
               );
