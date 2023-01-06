@@ -67,9 +67,10 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         title: Text('Spiel: ' + widget.game.id.toString()),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: CaboColors.caboGreen,
+        backgroundColor:
+            !isFinished() ? CaboColors.caboGreen : CaboColors.caboRed,
         foregroundColor: CaboColors.white,
-        icon: const Icon(Icons.add),
+        icon: !isFinished() ? const Icon(Icons.add) : const Icon(Icons.close),
         label: Text(!isFinished() ? 'Neue Runde anlegen' : 'SPIEL IST AUS'),
         onPressed: () {
           if (!isFinished()) {

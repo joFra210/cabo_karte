@@ -91,22 +91,17 @@ class _HomeState extends State<Home> {
               child: DefaultTabController(
                 length: 3,
                 child: Scaffold(
-                  bottomNavigationBar: TabBar(
-                    padding: const EdgeInsets.only(bottom: 10.0),
+                  bottomNavigationBar: const TabBar(
+                    padding: EdgeInsets.only(bottom: 10.0),
                     indicatorWeight: 4.0,
                     indicatorColor: CaboColors.caboGreenLight,
                     labelColor: CaboColors.caboGreenLight,
                     unselectedLabelColor: Colors.grey,
-                    tabs: const [
+                    tabs: [
                       Tab(icon: Icon(Icons.home)),
                       Tab(icon: Icon(Icons.list)),
                       Tab(icon: Icon(Icons.person)),
                     ],
-                    onTap: (index) {
-                      if (index == 1) {
-                        _updateGames();
-                      }
-                    },
                   ),
                   body: TabBarView(
                     children: [
@@ -173,10 +168,13 @@ class _HomeState extends State<Home> {
                             FloatingActionButton.extended(
                               backgroundColor: CaboColors.caboRed,
                               foregroundColor: CaboColors.white,
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(
+                              onPressed: () async {
+                                await Navigator.of(context).pushNamed(
                                   Routes.newGame,
                                 );
+                                setState(() {
+                                  _updateGames();
+                                });
                               },
                               icon: const Icon(Icons.add, size: 30),
                               label: const Text(
@@ -206,9 +204,11 @@ class _HomeState extends State<Home> {
                                       height: 3,
                                     ),
                                   ),
-                                  subtitle: Text('Datum: ' +
-                                      Dateformatter.getFormattedDate(
-                                          _allGames[index].date)),
+                                  subtitle: Text(
+                                    'Datum: ' +
+                                        Dateformatter.getFormattedDate(
+                                            _allGames[index].date),
+                                  ),
                                   // game screen on tap
                                   onTap: () {
                                     Navigator.of(context).pushNamed(
