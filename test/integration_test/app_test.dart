@@ -12,8 +12,9 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      // Verify the counter starts at 0.
+      // Verify that our app starts with no games.
       expect(find.text('Neues Spiel'), findsOneWidget);
+      expect(find.text('Spiel fortsetzen'), findsNothing);
 
       // Finds the floating action button to tap on.
       final Finder fab = find.bySemanticsLabel('Neues Spiel');
@@ -24,8 +25,7 @@ void main() {
       // Trigger a frame.
       await tester.pumpAndSettle();
 
-      // Verify the counter increments by 1.
-      expect(find.text('1'), findsOneWidget);
+      expect(find.text('Neue Spieler anlegen'), findsOneWidget);
     });
   });
 }

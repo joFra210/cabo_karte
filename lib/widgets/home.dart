@@ -150,11 +150,14 @@ class _HomeState extends State<Home> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    onPressed: () {
-                                      Navigator.of(context).pushNamed(
+                                    onPressed: () async {
+                                      await Navigator.of(context).pushNamed(
                                         Routes.gameDetail,
                                         arguments: snapshot.data!,
                                       );
+                                      setState(() {
+                                        _updateGames();
+                                      });
                                     },
                                     icon:
                                         const Icon(Icons.play_arrow, size: 25),
@@ -192,34 +195,48 @@ class _HomeState extends State<Home> {
                       Column(
                         children: [
                           Expanded(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: _allGames.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  title: Text(
-                                    'Spiel ' + _allGames[index].id.toString(),
-                                    style: const TextStyle(
-                                      fontSize: FontParams.fontSizeTitle,
-                                      fontWeight: FontWeight.bold,
-                                      height: 3,
+                            child: _allGames.isNotEmpty
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: _allGames.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        title: Text(
+                                          'Spiel ' +
+                                              _allGames[index].id.toString(),
+                                          style: const TextStyle(
+                                            fontSize: FontParams.fontSizeTitle,
+                                            fontWeight: FontWeight.bold,
+                                            height: 3,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          'Datum: ' +
+                                              Dateformatter.getFormattedDate(
+                                                  _allGames[index].date),
+                                        ),
+                                        // game screen on tap
+                                        onTap: () async {
+                                          await Navigator.of(context).pushNamed(
+                                            Routes.gameDetail,
+                                            arguments: _allGames[index],
+                                          );
+                                          setState(() {
+                                            _updateGames();
+                                          });
+                                        },
+                                      );
+                                    },
+                                  )
+                                : const Center(
+                                    child: Text(
+                                      'Noch keine Spiele vorhanden...',
+                                      style: TextStyle(
+                                        fontSize: FontParams.fontSizeSubtitle,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                  subtitle: Text(
-                                    'Datum: ' +
-                                        Dateformatter.getFormattedDate(
-                                            _allGames[index].date),
-                                  ),
-                                  // game screen on tap
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                      Routes.gameDetail,
-                                      arguments: _allGames[index],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
                           ),
                         ],
                       ),
@@ -234,10 +251,13 @@ class _HomeState extends State<Home> {
                           FloatingActionButton.extended(
                             backgroundColor: CaboColors.caboGreen,
                             foregroundColor: CaboColors.white,
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
+                            onPressed: () async {
+                              await Navigator.of(context).pushNamed(
                                 Routes.addPlayer,
                               );
+                              setState(() {
+                                _updateGames();
+                              });
                             },
                             icon: const Icon(Icons.add),
                             label: const Text('Spieler:in anlegen'),

@@ -22,6 +22,6 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Neues Spiel'));
     await tester.pumpAndSettle();
 
-    expect(find.text('spieler anlegen'), findsOneWidget);
+    expect(find.text('Neue Spieler anlegen'), findsOneWidget);
   });
 }
