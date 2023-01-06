@@ -130,7 +130,8 @@ class _HomeState extends State<Home> {
                             FutureBuilder<Game>(
                               future: currentGame,
                               builder: (context, AsyncSnapshot<Game> snapshot) {
-                                if (snapshot.hasData) {
+                                if (snapshot.hasData &&
+                                    !snapshot.data!.finished) {
                                   return ElevatedButton.icon(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: CaboColors.caboGreen,
