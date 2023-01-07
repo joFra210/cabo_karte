@@ -43,6 +43,36 @@ class _RoundsWidgetState extends State<RoundsWidget> {
     return widget.game.finished;
   }
 
+  List<Widget> getPlayerEntriesAsListTiles(
+      {required Set<Player> playerSet, required Round round}) {
+    Player _caboPlayer = getPlayerById(round.caboCallerId!);
+    final Iterable<ListTile> tiles = playerSet.map(
+      (player) {
+        return ListTile(
+          trailing: Text(player.name),
+          title: Text(
+            round.playerScores[player.id]!.toString(),
+          ),
+          leading: Radio<Player>(
+            value: player,
+            groupValue: _caboPlayer,
+            onChanged: (Player? value) {
+              //do nothing
+            },
+          ),
+        );
+      },
+    );
+    if (tiles.isNotEmpty) {
+      final divided = ListTile.divideTiles(
+        context: context,
+        tiles: tiles,
+      ).toList();
+      return divided;
+    }
+    return [];
+  }
+
   List<DataRow> generateRoundDataRowList() {
     List<DataRow> roundList = <DataRow>[];
 
@@ -59,6 +89,7 @@ class _RoundsWidgetState extends State<RoundsWidget> {
         int score = round.playerScores[player.id]!;
         bool isKamikazeScore = score == 50;
         bool isWinnerScore = player.id == round.winnerId;
+        bool isLastPlayer = player.id == widget.game.players.last.id;
 
         cellList.add(
           DataCell(
@@ -69,6 +100,49 @@ class _RoundsWidgetState extends State<RoundsWidget> {
                 fontWeight: isWinnerScore ? FontWeight.bold : null,
               ),
             ),
+            // preparation for edit round feature
+            showEditIcon: !isFinished() && isLastPlayer && false,
+            onTap: () async {
+              final bool? confirm = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  // return alert dialog with round data
+                  return AlertDialog(
+                    title: const Text('Runde'),
+                    content:
+                        // insert round data for every player here
+                        Column(
+                      children: [
+                        const ListTile(
+                          leading: Text('Cabo'),
+                          title: Text('Punkte'),
+                          trailing: Text('Name'),
+                        ),
+                        ...getPlayerEntriesAsListTiles(
+                          playerSet: widget.game.players,
+                          round: round,
+                        ),
+                      ],
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text('Zurück'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text('Editieren'),
+                      ),
+                    ],
+                  );
+                },
+              );
+              // prepare for edit round feature
+              if (confirm == true) {
+                // edit round
+                // print('edit round');
+              }
+            },
           ),
         );
       }
@@ -76,8 +150,30 @@ class _RoundsWidgetState extends State<RoundsWidget> {
       roundList.add(
         DataRow(
           cells: cellList,
-          onLongPress: () {
+          onLongPress: () async {
             // print('insert code to edit round');
+            // show round data in dialog
+            showDialog<bool>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Runde'),
+                  content: Column(
+                    children: [],
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text('Zurück'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: const Text('Editieren'),
+                    ),
+                  ],
+                );
+              },
+            );
           },
         ),
       );
@@ -104,20 +200,25 @@ class _RoundsWidgetState extends State<RoundsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: ListView(
-        restorationId: 'some_table',
-        padding: const EdgeInsets.all(16),
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              columns: tableCols,
-              rows: generateRoundDataRowList(),
+    return Column(children: [
+      Expanded(
+        child: ListView(
+          restorationId: 'some_table',
+          padding: const EdgeInsets.all(16),
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columns: tableCols,
+                rows: generateRoundDataRowList(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    );
+      const SizedBox(
+        height: 120,
+      ),
+    ]);
   }
 }

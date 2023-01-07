@@ -40,15 +40,15 @@ class _RoundFormState extends State<RoundForm> {
   }
 
   /// Returns a list of [ListTile] widgets representing the [Player] objects in
-  /// [widget.players].
+  /// a given [playerSet].
   ///
   /// Each [ListTile] widget contains a [Radio] button for selecting the [Player]
   /// object as the cabo caller, and a [TextFormField] for entering the player's score.
   /// The [TextFormField] has a validator that ensures the entered score is a number
   /// between 0 and 50, and an `onChanged` callback that updates the score for the
   /// corresponding [Player] in the [_round] object.
-  List<Widget> getPlayerEntries() {
-    final Iterable<ListTile> tiles = widget.players.map(
+  List<Widget> getPlayerEntriesAsListTiles(Set<Player> playerSet) {
+    final Iterable<ListTile> tiles = playerSet.map(
       (player) {
         return ListTile(
           trailing: Text(player.name),
@@ -115,9 +115,9 @@ class _RoundFormState extends State<RoundForm> {
           Expanded(
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: getPlayerEntries().length,
+              itemCount: getPlayerEntriesAsListTiles(widget.players).length,
               itemBuilder: (context, index) {
-                return getPlayerEntries()[index];
+                return getPlayerEntriesAsListTiles(widget.players)[index];
               },
             ),
           ),
