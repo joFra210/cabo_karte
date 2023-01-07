@@ -166,10 +166,10 @@ class _RoundsWidgetState extends State<RoundsWidget> {
                       onPressed: () => Navigator.of(context).pop(false),
                       child: const Text('Zurück'),
                     ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: const Text('Editieren'),
-                    ),
+                    // TextButton(
+                    //   onPressed: () => Navigator.of(context).pop(true),
+                    //   child: const Text('Editieren'),
+                    // ),
                   ],
                 );
               },
