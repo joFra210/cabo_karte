@@ -109,9 +109,8 @@ class _RoundsWidgetState extends State<RoundsWidget> {
                   // return alert dialog with round data
                   return AlertDialog(
                     title: const Text('Runde'),
-                    content:
-                        // insert round data for every player here
-                        Column(
+                    content: Column(
+                      // insert round data for every player here
                       children: [
                         const ListTile(
                           leading: Text('Cabo'),
@@ -129,10 +128,10 @@ class _RoundsWidgetState extends State<RoundsWidget> {
                         onPressed: () => Navigator.of(context).pop(false),
                         child: const Text('Zurück'),
                       ),
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: const Text('Editieren'),
-                      ),
+                      // TextButton(
+                      //   onPressed: () => Navigator.of(context).pop(true),
+                      //   child: const Text('Editieren'),
+                      // ),
                     ],
                   );
                 },
@@ -150,31 +149,6 @@ class _RoundsWidgetState extends State<RoundsWidget> {
       roundList.add(
         DataRow(
           cells: cellList,
-          onLongPress: () async {
-            // print('insert code to edit round');
-            // show round data in dialog
-            showDialog<bool>(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Runde'),
-                  content: Column(
-                    children: [],
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text('Zurück'),
-                    ),
-                    // TextButton(
-                    //   onPressed: () => Navigator.of(context).pop(true),
-                    //   child: const Text('Editieren'),
-                    // ),
-                  ],
-                );
-              },
-            );
-          },
         ),
       );
     }
