@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cabo_karte">
    <application
-        android:label="cabo_karte"
+        android:label="Cabo Punktekarte"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

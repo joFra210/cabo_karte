@@ -1,5 +1,5 @@
 name: cabo_karte
-description: Eine sexy Cabo Punktekarte mit ohne Rechnen für Benutzer.
+description: Eine tolle Cabo Punktekarte mit ohne Rechnen für Benutzer.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -29,7 +29,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -94,6 +93,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
-assets:
-  - assets/images/avocados.jpeg
